@@ -29,7 +29,7 @@
     #content-wrapper {
     margin-top: 20px; /* Dodaj margines na górę */
     margin-bottom: 60px; /* Dodaj margines na dół */
-    padding: 20px; /* Dodaj wypełnienie wewnątrz kontenera */
+    
 }
 
         body {
