@@ -1,0 +1,43 @@
+        /* Navbar styles */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #f8f9fa;
+            padding: 10px;
+        }
+
+        .navbar-logo {
+            font-weight: bold;
+            font-size: 15px;
+            text-decoration: none !important;
+            cursor: default;
+        }
+        .navbar-logo:hover::after {
+            text-decoration: none;
+            background-color: transparent
+        }
+
+        .navbar-buttons {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start; /* Przesunięcie przycisku "Powrót" na lewo */
+        }
+
+        .navbar-buttons a {
+            margin-left: 10px;
+            text-decoration: none;
+            color: #000;
+        }
+
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            .navbar-buttons {
+                justify-content: flex-end; /* Przesunięcie przycisków na prawo w wersji responsywnej */
+            }
+
+            .navbar-buttons a {
+                margin-left: 0;
+                margin-right: 10px; /* Dodanie marginesu po prawej stronie przycisków */
+            }
+        }

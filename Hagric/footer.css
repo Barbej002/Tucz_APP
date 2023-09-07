@@ -1,0 +1,36 @@
+.kontener {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    
+}
+
+.footer {
+    background-color: #222222;
+    color: white;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.footer a.footer-link {
+    font-weight: bold !important;
+    color: #ffffff !important;
+    text-decoration: none !important;
+}
+
+.footer a {
+    all: unset;
+    font-weight: bold;
+    color: #757575;
+    text-decoration: none;
+}
+.current-year {
+    color: rgb(230, 230, 230);
+}
+
+.footer-text {
+    color: rgb(230, 230, 230);
+}

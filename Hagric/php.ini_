@@ -1,0 +1,3 @@
+session.save_path /catalog/temp/php/session
+session.cookie_lifetime = 3600
+register_globals = on
