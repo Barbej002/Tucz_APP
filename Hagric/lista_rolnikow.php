@@ -26,6 +26,12 @@
 <link href="css/navbar.css" rel="stylesheet">
 
 <style>
+    #content-wrapper {
+    margin-top: 20px; /* Dodaj margines na górę */
+    margin-bottom: 60px; /* Dodaj margines na dół */
+    padding: 20px; /* Dodaj wypełnienie wewnątrz kontenera */
+}
+
         body {
             overflow-x: hidden;
             background-image: url(background.jpg);
@@ -65,11 +71,13 @@ tr.even {
         }
 
         .footer {
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            background-color: #222222;
-        }
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background-color: #222222;
+    margin-top: 20px; /* Dodaj margines na górę */
+}
+        
 
         .kontener {
             padding-bottom: 30px;
@@ -77,13 +85,13 @@ tr.even {
 
         .tytul {
             text-align: center;
-            margin-top: 20px;
+            margin-top: 0;
             margin-bottom: 20px;
             font-size: 25px;
         }
 
         .card {
-            margin-top: 20px;
+            margin-top: 0;
         }
 
         .card-header {
@@ -124,6 +132,7 @@ tr.even {
             border-radius: 5px;
             cursor: pointer;
             text-decoration: none;
+            margin-bottom: 10px;
         }
 
         .footer-text {
@@ -142,8 +151,8 @@ tr.even {
             font-weight: bold;
             margin-top: 30px;
         }
-        /* Styl dla nieparzystych wierszy */
-tr.odd {
+
+        tr.odd {
     background-color: rgba(255, 255, 255, 0);
 }
 
@@ -157,18 +166,16 @@ tr:hover {
     background-color: rgba(255, 153, 0, 0.8); /* Tutaj możesz ustawić kolor tła po najechaniu */
 }
 
-
-
     </style>
 </head>
 <body id="page-top">
 <nav class="navbar">
 <div class="navbar-buttons">
-<a href="panel_administratora2.php" class="navbar-button">Powrót</a>
+<a href="index.php" class="navbar-button">Powrót</a>
 </div>
 <a href="#" class="navbar-logo">Informacje o rolnikach</a>
 <div class="navbar-buttons">
-            <a href="/logout.php" class="navbar-button">Wyloguj</a>
+            <a href="logout.php" class="navbar-button">Wyloguj</a>
         </div>
     </nav>
     <!-- Zawartość strony -->
@@ -271,11 +278,15 @@ tr:hover {
 <i class="fas fa-angle-up"></i>
 </a>
 
-<div class="kontener">
-            <div class="footer" style="padding-top: 12px;">
-                <p><span class="footer-text">&copy;</span> <span class="current-year">Year</span> <span class="footer-text">Hagric - Developed by <a href="https://www.ac-it.pl/" target="_blank" class="footer-link">AC IT Sp. z o.o.</a></span></p>
-            </div>
-        </div>
+
+<div class="footer" style="padding-top:12px">
+    <p>
+        <span class="footer-text">&copy;</span>
+        <span class="current-year">Year</span>
+        <span class="footer-text";">Hagric - Developed by <a href="https://www.ac-it.pl/" target="_blank" class="footer-link">AC IT Sp. z o.o.</a></span>
+    </p>
+</div>
+        
 
         <script>
             const currentYear = new Date().getFullYear();
