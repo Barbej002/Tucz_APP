@@ -1,63 +1,63 @@
 <?php
-// Sprawdzenie czy użytkownik jest zalogowany
+
 session_start();
 if (!isset($_SESSION['user_id'])) {
-    // Przekierowanie na stronę logowania
+    
     header("Location: login.html");
     exit();
 }
-// Dane do połączenia z bazą danych
+
 $host = "mysql8";
 $dbname = "37328198_fermy";
 $username = "37328198_fermy";
 $password = "R&b^7C!pD*2@";
 
-// Łączenie z bazą danych
+
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (PDOException $e) {
     die("Nie można połączyć się z bazą danych: " . $e->getMessage());
 }
-// Sprawdzenie, czy zostało przekazane ID stada
+
 if (isset($_GET['id']) && isset($_GET['idf'])) {
     $id = $_GET['id'];
     $idf = $_GET['idf'];
-    $id_stada = $_GET['id']; // Dodane przypisanie wartości do zmiennej $id_stada
+    $id_stada = $_GET['id']; 
 } else {
-    // Jeżeli brak ID stada, przekieruj użytkownika lub wyświetl komunikat błędu
+
     header("Location: informacje_fermy.php?id=$idf");
     exit();
 }
 
-// Sprawdzenie, czy formularz został wysłany
+
 if (isset($_POST['submit'])) {
-    // Pobranie danych z formularza
+
     $ilosc_padlych = $_POST['ilosc_padlych'];
     $data = $_POST['data'];
     $przyczyna = $_POST['przyczyna'];
     $opiniujacy = $_POST['opiniujacy'];
 
-    // Pobranie i zapisanie przesłanych plików
+
     $files = $_FILES['files'];
     $file_names = $files['name'];
     $file_tmps = $files['tmp_name'];
     $file_errors = $files['error'];
 
-    $uploaded_files = array(); // Tablica przechowująca nazwy przesłanych plików
+    $uploaded_files = array(); 
 
-    // Iteracja przez przesłane pliki
+
     for ($i = 0; $i < count($file_names); $i++) {
-        // Sprawdzenie, czy wystąpił błąd w przesyłaniu pliku
+        
         if ($file_errors[$i] === 0) {
-            // Przeniesienie pliku do docelowej lokalizacji
+            
             $destination = "upload/" . $file_names[$i];
             move_uploaded_file($file_tmps[$i], $destination);
-            $uploaded_files[] = $destination; // Dodanie ścieżki do tablicy przesłanych plików
+            $uploaded_files[] = $destination; 
         }
     }
 
-    // Wstawienie danych do tabeli "informacje_upadki"
+
     $query = "INSERT INTO informacje_upadki (id_stada, ilosc_padlych, data, przyczyna, opiniujacy) 
               VALUES (:id_stada, :ilosc_padlych, :data, :przyczyna, :opiniujacy)";
     $stmt = $pdo->prepare($query);
@@ -68,14 +68,14 @@ if (isset($_POST['submit'])) {
     $stmt->bindParam(':opiniujacy', $opiniujacy);
     $stmt->execute();
 
-    // Pobranie ID ostatnio wstawionego rekordu
+
     $last_insert_id = $pdo->lastInsertId();
 
-    // Iteracja przez przesłane pliki i zapisanie ich w bazie danych
-    foreach ($uploaded_files as $file_path) {
-        $file_name = basename($file_path); // Pobranie samej nazwy pliku
 
-        // Wstawienie ścieżki pliku i nazwy pliku do tabeli "pliki_upadki"
+    foreach ($uploaded_files as $file_path) {
+        $file_name = basename($file_path); 
+
+
         $query = "INSERT INTO pliki_upadki (id_upadku, sciezka, nazwa_pliku) VALUES (:id_upadku, :sciezka, :nazwa_pliku)";
         $stmt = $pdo->prepare($query);
         $stmt->bindParam(':id_upadku', $last_insert_id);
@@ -84,14 +84,14 @@ if (isset($_POST['submit'])) {
         $stmt->execute();
     }
 
-    // Aktualizacja kolumny "ilosc_padlych" w tabeli "stada"
+
     $query = "UPDATE stada SET ilosc_padlych = ilosc_padlych + :ilosc_padlych WHERE id = :id_stada";
     $stmt = $pdo->prepare($query);
     $stmt->bindParam(':id_stada', $id_stada);
     $stmt->bindParam(':ilosc_padlych', $ilosc_padlych);
     $stmt->execute();
 
-    // Przekierowanie użytkownika na inną stronę po dodaniu informacji
+
     header("Location: informacje_fermy.php?id=$idf");
     exit();
 }
@@ -165,7 +165,7 @@ echo "<a href='logout.php' class='wyloguj'; style='color: black;'>Wyloguj</a>";
                             <option value="Lekarz">Lekarz wet.</option>
                             <option value="Klient">Klient</option>
                             <option value="Inne">Inne</option>
-                            <!-- Dodaj więcej opcji wyboru tutaj -->
+                            
                         </select>
                     </div>
 

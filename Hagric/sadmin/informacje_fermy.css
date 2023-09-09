@@ -41,7 +41,7 @@ a {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  z-index: 3; /* set a positive z-index value */
+  z-index: 3; 
 }
 
 .table-container {
@@ -55,7 +55,7 @@ a {
   width: 800px;
   overflow: hidden;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-  z-index: 3; /* set a positive z-index value */
+  z-index: 3; 
 }
 
 table {
@@ -107,7 +107,7 @@ tbody td:hover:before {
   padding: 4rem;
   border-radius: 10px;
   position: relative;
-  z-index: 3; /* set a higher z-index value */
+  z-index: 3; 
 }
 
 .powrot {
@@ -115,7 +115,7 @@ tbody td:hover:before {
   top: 10px;
   left: 10px;
   font-size: 16px;
-  z-index: 3; /* set an even higher z-index value */
+  z-index: 3; 
 }
 
 .wyloguj {
@@ -123,7 +123,7 @@ tbody td:hover:before {
   top: 10px;
   right: 10px;
   font-size: 16px;
-  z-index: 3; /* set an even higher z-index value */
+  z-index: 3; 
 }
 
 .upadek {
@@ -132,7 +132,7 @@ tbody td:hover:before {
   left: 50%;
   transform: translateX(-50%);
   padding: 10px 20px;
-  z-index: 3; /* set a positive z-index value */
+  z-index: 3; 
 }
 
 .pasza {
@@ -141,7 +141,7 @@ tbody td:hover:before {
   right: 18%;
   transform: translateX(-50%);
   padding: 10px 20px;
-  z-index: 3; /* set a positive z-index value */
+  z-index: 3; 
 }
 
 .informacje {
@@ -150,7 +150,7 @@ tbody td:hover:before {
   left: 50%;
   transform: translateX(-50%);
   padding: 10px 20px;
-  z-index: 0; /* set a lower z-index value */
+  z-index: 0; 
 }
 
 .informacje a {
@@ -158,7 +158,7 @@ tbody td:hover:before {
   text-decoration: none;
 }
 
-/* Media queries */
+
 @media only screen and (max-width: 600px) {
   .table-wrapper {
     width: 100%;

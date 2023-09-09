@@ -2,11 +2,11 @@
 session_start();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Pobranie danych z formularza
+
     $title = $_POST['title'];
     $opis = $_POST['opis'];
 
-    // Opcjonalne przetwarzanie przesłanych plików
+
     $nazwy_plikow = [];
     $tmp_pliki = [];
 
@@ -20,13 +20,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 
-    // Dane do połączenia z bazą danych
+
     $host = "mysql8";
     $dbname = "37328198_fermy";
     $username = "37328198_fermy";
     $password = "R&b^7C!pD*2@";
 
-    // Łączenie z bazą danych
+
     try {
         $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -34,17 +34,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         die("Nie można połączyć się z bazą danych: " . $e->getMessage());
     }
 
-    // Sprawdzenie czy użytkownik jest zalogowany
+
     if (!isset($_SESSION['user_id'])) {
-        // Przekierowanie na stronę logowania
+
         header("Location: login.html");
         exit();
     }
 
-    // Pobranie ID użytkownika z sesji
+
     $user_id = $_SESSION['user_id'];
 
-    // Pobranie nazwy użytkownika z bazy danych
+
     $query = "SELECT username FROM users WHERE id = :user_id";
     $stmt = $pdo->prepare($query);
     $stmt->bindParam(':user_id', $user_id);
@@ -52,7 +52,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
     $username = $result['username'];
 
-    // Dodawanie zgłoszenia do bazy danych
+
     $query = "INSERT INTO zgloszenia_problemow (username, title, opis, nazwa_pliku) VALUES (:username, :title, :opis, :nazwa_pliku)";
     $stmt = $pdo->prepare($query);
     $stmt->bindParam(':username', $username);
@@ -60,14 +60,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->bindParam(':opis', $opis);
     $stmt->bindParam(':nazwa_pliku', $nazwa_plikow_string);
 
-    // Generowanie stringu z nazwami plików oddzielonymi przecinkami
+
     $nazwa_plikow_string = implode(',', $nazwy_plikow);
 
     $stmt->execute();
 
-    // Jeśli pliki zostały przesłane, przenieś je do katalogu docelowego
+
     if (!empty($nazwy_plikow)) {
-        $katalog_docelowy = "upload/"; // Wprowadź ścieżkę do katalogu docelowego
+        $katalog_docelowy = "upload/"; 
         $ile_plikow = count($nazwy_plikow);
         for ($i = 0; $i < $ile_plikow; $i++) {
             $nazwa_pliku = $nazwy_plikow[$i];
@@ -76,7 +76,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 
-    // Przekierowanie po pomyślnym przesłaniu zgłoszenia
+
     header("Location: index.php");
     exit();
 }
@@ -90,11 +90,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,600,0,0" />
-<!-- Custom fonts for this template -->
+
 <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
 <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
-<!-- Custom styles for this template -->
+
 <link href="css/sb-admin-2.css" rel="stylesheet">
 <link href="css/footer.css" rel="stylesheet">
 <link href="css/navbar.css" rel="stylesheet">

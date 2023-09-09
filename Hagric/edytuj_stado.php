@@ -14,10 +14,10 @@
 <div class="login-card-container">
 <div class="login-card">
 <?php
-// Sprawdzenie czy użytkownik jest zalogowany
+
 session_start();
 if (!isset($_SESSION['user_id'])) {
-    // Przekierowanie na stronę logowania
+    
     header("Location: login.html");
     exit();
 }

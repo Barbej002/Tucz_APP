@@ -1,10 +1,10 @@
 <?php
-// Import pliku z konfiguracją bazy danych
-require_once 'db_config.php'; // Zakładam, że masz plik z konfiguracją bazy danych
 
-// Sprawdzamy, czy formularz został przesłany
+require_once 'db_config.php'; 
+
+
 if (isset($_POST['submit'])) {
-    // Pobieramy dane z formularza
+    
     $data = $_POST['data'];
     $id_stada = $_POST['id_stada'];
     $preparat = $_POST['preparat'];
@@ -12,12 +12,12 @@ if (isset($_POST['submit'])) {
     $okres = $_POST['okres'];
     $opinia = $_POST['opinia'];
 
-    // Tworzymy zapytanie SQL do dodania danych do tabeli
+
     $sql = "INSERT INTO zgloszenia_leczen (data, id_stada, preparat, dawkowanie, okres, opinia)
             VALUES ('$data', '$id_stada', '$preparat', '$dawkowanie', '$okres', '$opinia')";
 
 
-    // Wykonujemy zapytanie do bazy danych
+
     $id_fermy = $_GET['id'];
     if (mysqli_query($conn, $sql)) {
         header("Location: informacje_fermy.php?id=$id_fermy");
@@ -25,7 +25,7 @@ if (isset($_POST['submit'])) {
         echo "Błąd: " . mysqli_error($conn);
     }
 
-    // Zamykamy połączenie z bazą danych
+
     mysqli_close($conn);
 }
 
@@ -83,13 +83,13 @@ if (isset($_POST['submit'])) {
                         <input type="date" name="data" id="data" required>
                     </div>
                     <script>
-                        // Pobierz dzisiejszą datę
+
                         var dzisiejszaData = new Date();
                         var dzien = dzisiejszaData.getDate();
-                        var miesiac = dzisiejszaData.getMonth() + 1; // Miesiące są numerowane od 0 do 11, więc dodajemy 1
+                        var miesiac = dzisiejszaData.getMonth() + 1; 
                         var rok = dzisiejszaData.getFullYear();
 
-                        // Jeśli miesiąc lub dzień mają tylko jedną cyfrę, dodaj zero na początku
+                        
                         if (miesiac < 10) {
                             miesiac = "0" + miesiac;
                         }
@@ -99,7 +99,7 @@ if (isset($_POST['submit'])) {
 
                         var dzisiejszaDataString = rok + "-" + miesiac + "-" + dzien;
 
-                        // Ustaw wartość pola input type="date" na dzisiejszą datę
+                        
                         document.getElementById("data").value = dzisiejszaDataString;
                     </script>
                     <input type="hidden" name="id_stada" value="<?php echo $id_stada; ?>">
@@ -107,24 +107,24 @@ if (isset($_POST['submit'])) {
                     <label for="stado">Stado:</label>
                 <div class="select-dropdown">
                     <?php
-                    // Pobieramy informacje o stadach na podstawie id_farmy z parametru id w adresie URL
+                    
 if (isset($_GET['id'])) {
     $id_fermy = $_GET['id'];
 
-    // Tworzymy zapytanie SQL do pobrania danych o stadach danej farmy
+    
     $sql = "SELECT * FROM stada WHERE id_farmy = '$id_fermy'";
 
-    // Wykonujemy zapytanie do bazy danych
+    
     $result = mysqli_query($conn, $sql);
 
-    // Tworzymy listę rozwijaną z dostępnymi stadami
+    
     echo "<select name='id_stada' id='stado' required>";
     while ($row = mysqli_fetch_assoc($result)) {
         echo "<option value='" . $row['id'] . "'>" . $row['numer_stada'] . "</option>";
     }
     echo "</select>";
 
-    // Zamykamy połączenie z bazą danych
+    
     mysqli_close($conn);
 }
                     ?>

@@ -10,12 +10,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,600,0,0" />
-    <!-- Custom fonts for this template -->
+
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link href="css/buttons.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
-    <!-- Custom styles for this template -->
+
     <link href="css/sb-admin-2.css" rel="stylesheet">
     <link href="css/footer.css" rel="stylesheet">
 
@@ -135,23 +135,23 @@
 
 <body id="page-top">
 
-    <!-- Page Wrapper -->
+
     <div id="wrapper">
-        <!-- Sidebar goes here -->
 
-        <!-- Content Wrapper -->
+
+
         <div id="content-wrapper" class="d-flex flex-column">
-            <!-- Main Content -->
-            <div id="content">
-                <!-- Topbar goes here -->
 
-                <!-- Begin Page Content -->
+            <div id="content">
+
+
+
                 <div class="container-fluid">
 
-                    <!-- Page Heading -->
+
                     <h1 class="h3 mb-2 text-gray-800">Rolnicy</h1>
 
-                    <!-- Table -->
+
                     <div class="card shadow mb-4">
                         <div class="card-body">
                             <div class="table-responsive">
@@ -176,20 +176,20 @@
                                     </tfoot>
                                     <tbody>
                                         <?php
-                                        // Connect to the database
+                                       
                                         $conn = new mysqli("localhost", "root", "", "fermy");
 
-                                        // Check connection
+                                        
                                         if ($conn->connect_error) {
                                             die("Connection failed: " . $conn->connect_error);
                                         }
 
-                                        // Fetch farmers from the database
+                                        
                                         $sql = "SELECT imie, nazwisko, adres, nip, numer_telefonu FROM users";
                                         $result = $conn->query($sql);
 
                                         if ($result->num_rows > 0) {
-                                            // Output data of each farmer
+                                            
                                             while ($row = $result->fetch_assoc()) {
                                                 echo "<tr>";
                                                 echo "<td>" . $row["imie"] . "</td>";
@@ -203,7 +203,7 @@
                                             echo "<tr><td colspan='5'>No farmers found</td></tr>";
                                         }
 
-                                        // Close the database connection
+                                        
                                         $conn->close();
                                         ?>
                                     </tbody>
@@ -213,19 +213,19 @@
                     </div>
 
                 </div>
-                <!-- /.container-fluid -->
+                
 
             </div>
-            <!-- End of Main Content -->
+            
 
-            <!-- Footer goes here -->
+            
         </div>
-        <!-- End of Content Wrapper -->
+        
 
     </div>
-    <!-- End of Page Wrapper -->
+   
 
-    <!-- Scripts and styles go here -->
+    
 
 </body>
 

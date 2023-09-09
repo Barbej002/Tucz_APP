@@ -1,39 +1,39 @@
 <?php
 session_start();
 
-// Sprawdzenie czy użytkownik jest zalogowany
+
 if (!isset($_SESSION['user_id'])) {
-    // Przekierowanie na stronę logowania
+    
     header("Location: login.html");
     exit();
 }
 
-// Pobranie ID zalogowanego użytkownika
+
 $user_id = $_SESSION['user_id'];
 
-// Połączenie z bazą danych
+
 $conn = mysqli_connect("mysql8", "37328198_fermy", "R&b^7C!pD*2@", "37328198_fermy");
 
-// Pobranie informacji o użytkowniku
+
 $query = "SELECT * FROM users WHERE id = $user_id";
 $result = mysqli_query($conn, $query);
 
-// Sprawdzenie roli użytkownika
+
 $row = mysqli_fetch_assoc($result);
 
 if ($row['administrator'] == true) {
-    // Jeśli użytkownik jest administratorem
+    
     if ($row['administrator'] == 'boss') {
-        // Przekierowanie do panelu administratora bossa
+        
         header("Location: sadmin/panel_administratora2.php");
         exit();
     } else {
-        // Przekierowanie do panelu administratora
+        
         header("Location: panel_administratora.php");
         exit();
     }
 } else {
-    // Pozostaw użytkownika na tej stronie
+    
 
 
 ?>
@@ -86,7 +86,7 @@ if ($row['administrator'] == true) {
 <body>
     <div class='container'>
         <?php
-        // Wyświetlenie informacji o użytkowniku
+        
         $email = $row['username'];
         $nip = $row['nip'];
         $numertel = $row['numer_telefonu'];
@@ -108,11 +108,11 @@ if ($row['administrator'] == true) {
                     <div class="force-overflow"></div>
                     <dl>
                         <?php
-                        // Pobranie informacji o fermach przypisanych do zalogowanego użytkownika
+                        
                         $query = "SELECT * FROM lista_ferm WHERE user_id = $user_id";
                         $result = mysqli_query($conn, $query);
 
-                        // Wyświetlenie informacji o fermach użytkownika
+                        
                         while ($row = mysqli_fetch_assoc($result)) {
                             $id_fermy = $row['id'];
                             $nazwa_fermy = $row['nazwa'];
