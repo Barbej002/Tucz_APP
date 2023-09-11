@@ -19,21 +19,21 @@
             </div>
 
             <?php
-            // Sprawdzenie czy użytkownik jest zalogowany
+            
             session_start();
             if (!isset($_SESSION['user_id'])) {
-                // Przekierowanie na stronę logowania
+                
                 header("Location: login.html");
                 exit();
             }
 
-            // Dane do połączenia z bazą danych
+            
             $host = "mysql8";
             $dbname = "37328198_fermy";
             $username = "37328198_fermy";
             $password = "R&b^7C!pD*2@";
 
-            // Łączenie z bazą danych
+            
             try {
                 $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
                 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -41,9 +41,9 @@
                 die("Nie można połączyć się z bazą danych: " . $e->getMessage());
             }
 
-            // Sprawdzenie czy formularz został wysłany
+            
             if (isset($_POST['submit'])) {
-                // Pobranie danych z formularza
+                
                 $nazwa = $_POST['nazwa'];
                 $adres = $_POST['adres'];
                 $kontakt = $_POST['kontakt'];
@@ -56,10 +56,10 @@
                 $user_id = $_SESSION['user_id'];
 
                 try {
-                    // Rozpoczęcie transakcji
+                    
                     $pdo->beginTransaction();
 
-                    // Wstawienie danych do tabeli "lista_ferm"
+                    
                     $query = "INSERT INTO lista_ferm (nazwa, adres, kontakt, wlasciciel, numer_s, przedstawiciel_hagric, dostawca_pasz, przedstawiciel_dostawcy_pasz, lekarz_prowadzacy, user_id) VALUES (:nazwa, :adres, :kontakt, :wlasciciel, :numer_s, :przedstawiciel_hagric, :dostawca_pasz, :przedstawiciel_dostawcy_pasz, :lekarz_prowadzacy, :user_id)";
                     $stmt = $pdo->prepare($query);
                     $stmt->bindParam(':nazwa', $nazwa);
@@ -74,14 +74,14 @@
                     $stmt->bindParam(':user_id', $user_id);
                     $stmt->execute();
 
-                    // Zatwierdzenie transakcji
+                   
                     $pdo->commit();
 
-                    // Przekierowanie użytkownika na stronę z danymi na temat danej fermy
+                    
                     header("Location: index.php");
                     exit();
                 } catch (PDOException $e) {
-                    // Wycofanie transakcji w przypadku błędu
+                    
                     $pdo->rollBack();
                     echo "Błąd zapytania: " . $e->getMessage();
                 }

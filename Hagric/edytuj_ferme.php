@@ -19,23 +19,23 @@
 <div class="login-card-container">
 <div class="login-card">
 <?php
-// Sprawdzenie czy użytkownik jest zalogowany
+
 session_start();
 if (!isset($_SESSION['user_id'])) {
-    // Przekierowanie na stronę logowania
+    
     header("Location: login.html");
     exit();
 }
 
-// Pobranie ID wybranej fermy z adresu URL
+
 $id = $_GET['id'];
 
-// Połączenie z bazą danych
+
 $conn = mysqli_connect("mysql8", "37328198_fermy", "R&b^7C!pD*2@", "37328198_fermy");
 
-// Sprawdzenie, czy formularz został wysłany
+
 if (isset($_POST['submit'])) {
-    // Pobranie nowych danych z formularza
+    
     $nazwa = $_POST['nazwa'];
     $wlasciciel = $_POST['wlasciciel'];
     $adres = $_POST['adres'];
@@ -45,16 +45,16 @@ if (isset($_POST['submit'])) {
     $dostawca_pasz = $_POST['dostawca_pasz'];
     $przedstawiciel_dostawcy_pasz = $_POST['przedstawiciel_dostawcy_pasz'];
 
-    // Zaktualizowanie danych fermy w bazie danych
+    
     $query = "UPDATE lista_ferm SET nazwa='$nazwa', wlasciciel='$wlasciciel', adres='$adres', kontakt='$kontakt', numer_s='$numer_s', przedstawiciel_hagric='$przedstawiciel_hagric', dostawca_pasz='$dostawca_pasz', przedstawiciel_dostawcy_pasz='$przedstawiciel_dostawcy_pasz' WHERE id=$id";
     mysqli_query($conn, $query);
 
-    // Przekierowanie użytkownika na stronę wyświetlającą informacje o edytowanej fermie
+    
     header("Location: informacje_fermy.php?id=$id");
     exit();
 }
 
-// Pobranie informacji na temat wybranej fermy
+
 $query = "SELECT * FROM lista_ferm WHERE id=$id";
 $result = mysqli_query($conn, $query);
 $row = mysqli_fetch_assoc($result);

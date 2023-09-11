@@ -7,12 +7,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,600,0,0" />
-    <!-- Custom fonts for this template -->
+
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link href="css/buttons.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
-    <!-- Custom styles for this template -->
+
     <link href="css/sb-admin-2.css" rel="stylesheet">
     <link href="css/footer.css" rel="stylesheet">
     <link href="css/navbar.css" rel="stylesheet">
@@ -143,13 +143,13 @@
     </nav>
 
     <?php
-    // Dane do połączenia z bazą danych
+
     $host = "mysql8";
     $dbname = "37328198_fermy";
     $username = "37328198_fermy";
     $password = "R&b^7C!pD*2@";
 
-    // Łączenie z bazą danych
+
     try {
         $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -157,13 +157,13 @@
         die("Nie można połączyć się z bazą danych: " . $e->getMessage());
     }
 
-    // Pobranie zgłoszeń problemów
+
     $query = "SELECT * FROM zgloszenia_problemow";
     $stmt = $pdo->query($query);
     $zgloszenia = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     if (count($zgloszenia) > 0) {
-        // Wyświetlanie tabeli z zgłoszeniami
+
         echo "<div class='card shadow mb-4'>";
         echo "<div class='card-header py-3'>";
         echo "<h6 class='m-0 font-weight-bold text-primary'>Zgłoszenia problemów</h6>";
@@ -211,7 +211,7 @@
         echo "<div class='no-data'>Brak zgłoszeń</div>";
     }
 
-    $pdo = null; // Zamknięcie połączenia z bazą danych
+    $pdo = null; 
     ?>
 
     <div class="kontener">
@@ -225,14 +225,14 @@
         document.querySelector(".current-year").textContent = currentYear;
     </script>
 
-    <!-- Bootstrap core JavaScript-->
+
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Core plugin JavaScript-->
+
     <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
 
-    <!-- Custom scripts for all pages-->
+
     <script src="js/sb-admin-2.min.js"></script>
 
 </body>

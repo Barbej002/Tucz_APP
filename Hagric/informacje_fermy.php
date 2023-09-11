@@ -1,9 +1,9 @@
 <?php
 session_start();
 
-// Sprawdzenie czy użytkownik jest zalogowany
+
 if (!isset($_SESSION['user_id'])) {
-    // Przekierowanie na stronę logowania
+    
     header("Location: login.html");
     exit();
 }
@@ -18,20 +18,20 @@ if (!isset($_SESSION['user_id'])) {
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,600,0,0" />
     <title>Edytuj stado</title>
-        <!-- Custom fonts for this template-->
+        
         <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
 
-    <!-- Custom fonts for this template -->
+   
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link href="css/buttons.css" rel="stylesheet" type="text/css">
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
 
-    <!-- Custom styles for this template -->
+    
     <link href="css/sb-admin-2.css" rel="stylesheet">
     <link href="css/footer.css" rel="stylesheet">
 
@@ -70,18 +70,18 @@ if (!isset($_SESSION['user_id'])) {
 
 .accordion-content {
     padding: 10px;
-    margin-bottom: 20px; /* Adjust margin for better spacing */
+    margin-bottom: 20px; 
     display: none;
-    width: 100%; /* Set a fixed width for the content */
-    box-sizing: border-box; /* Include padding and border in the width calculation */
+    width: 100%; 
+    box-sizing: border-box; 
 }
 
 .content {
     display: flex;
-    flex-direction: column; /* Ustawienie kierunku na kolumnę */
-    justify-content: center; /* Wyśrodkowanie elementów wzdłuż osi poziomej */
-    align-items: center; /* Wyśrodkowanie elementów wzdłuż osi pionowej */
-    padding: 0 10px; /* Zmniejszenie odstępu po bokach */
+    flex-direction: column; 
+    justify-content: center; 
+    align-items: center; 
+    padding: 0 10px; 
     margin-top: 20px;
 }
 
@@ -93,8 +93,8 @@ if (!isset($_SESSION['user_id'])) {
 .buttons-container {
     display: flex;
     flex-direction: column;
-    align-items: center; /* Wyśrodkowanie elementów wzdłuż osi poziomej */
-    justify-content: center; /* Wyśrodkowanie elementów wzdłuż osi pionowej */
+    align-items: center; 
+    justify-content: center; 
     margin-top: auto;
     flex-shrink: 0;
 }
@@ -116,9 +116,9 @@ if (!isset($_SESSION['user_id'])) {
 
 .button-group {
     display: flex;
-    flex-direction: row; /* Umieszczenie przycisków w jednym wierszu */
-    gap: 10px; /* Odstęp między przyciskami */
-    justify-content: center; /* Wyśrodkowanie przycisków wzdłuż osi poziomej */
+    flex-direction: row; 
+    gap: 10px; 
+    justify-content: center; 
 }
 
 .button {
@@ -134,9 +134,7 @@ if (!isset($_SESSION['user_id'])) {
     background-color: #ffffff80;
 }
 
-/* ... (reszta stylu) */
 
-        /* Navbar styles */
         .navbar {
             display: flex;
             justify-content: space-between;
@@ -159,7 +157,7 @@ if (!isset($_SESSION['user_id'])) {
         .navbar-buttons {
             display: flex;
             align-items: center;
-            justify-content: flex-start; /* Przesunięcie przycisku "Powrót" na lewo */
+            justify-content: flex-start; 
         }
 
         .navbar-buttons a {
@@ -167,35 +165,35 @@ if (!isset($_SESSION['user_id'])) {
             text-decoration: none;
             color: #000;
         }
-        /* Styl dla nieparzystych wierszy */
+        
 tr.odd {
-    background-color: rgba(255, 255, 255, 0); /* Tutaj możesz ustawić kolor dla nieparzystych wierszy */
+    background-color: rgba(255, 255, 255, 0); 
 }
 
-/* Styl dla parzystych wierszy */
+
 tr.even {
-    background-color: rgba(200, 200, 200, .4); /* Tutaj możesz ustawić kolor dla parzystych wierszy */
+    background-color: rgba(200, 200, 200, .4); 
 }
 
-        /* Responsive styles */
+        
         @media (max-width: 768px) {
             .navbar-buttons {
-                justify-content: flex-end; /* Przesunięcie przycisków na prawo w wersji responsywnej */
+                justify-content: flex-end; 
             }
 
             .navbar-buttons a {
                 margin-left: 0;
-                margin-right: 10px; /* Dodanie marginesu po prawej stronie przycisków */
+                margin-right: 10px; 
             }
         }
     </style>
 
 </head>
 <body>
-        <!-- Content Wrapper -->
+        
         <div id="content-wrapper" class="d-flex flex-column">
 
-            <!-- Main Content -->
+            
             <div id="content">
             <nav class="navbar">
         <div class="navbar-buttons">
@@ -261,11 +259,11 @@ foreach ($stada as $stado) {
     $numer_stada = $stado['numer_stada'];
     $opis = $stado['opis'];
     $ilosc_sztuk = $stado['ilosc_sztuk'];
-        // Sprawdzenie, czy wiersz jest parzysty czy nieparzysty
+        
         $row_class = ($counter % 2 === 0) ? 'even' : 'odd';
         $counter++;
 
-    // Aktualizacja informacji o upadkach
+ 
     $query = "SELECT SUM(ilosc_padlych) AS suma_padlych FROM informacje_upadki WHERE id_stada=$id_stada";
     $result = mysqli_query($conn, $query);
     $row = mysqli_fetch_assoc($result);
@@ -275,7 +273,7 @@ foreach ($stada as $stado) {
     mysqli_query($conn, $query);
     
 
-    // Pobranie zaktualizowanych danych
+  
     $query = "SELECT * FROM stada WHERE id=$id_stada";
     $result = mysqli_query($conn, $query);
     $stado = mysqli_fetch_assoc($result);
@@ -325,7 +323,7 @@ $counter = 0;
 foreach ($pasze as $pasza) {
     $nazwa_paszy = $pasza['nazwa_paszy'];
     $ilosc_paszy = $pasza['ilosc_paszy'];
-        // Sprawdzenie, czy wiersz jest parzysty czy nieparzysty
+       
         $row_class = ($counter % 2 === 0) ? 'even' : 'odd';
         $counter++;
     echo "<tr class='$row_class'>";
@@ -347,7 +345,7 @@ $conn = mysqli_connect("mysql8", "37328198_fermy", "R&b^7C!pD*2@", "37328198_fer
         $id = $_GET['id'];
         $idf = $_GET['id'];
 
-        // Pobranie informacji na temat ferm
+     
         $query = "SELECT * FROM lista_ferm WHERE id=$id";
         $result = mysqli_query($conn, $query);
         while ($row = mysqli_fetch_assoc($result)) {

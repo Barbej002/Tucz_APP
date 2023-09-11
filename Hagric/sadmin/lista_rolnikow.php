@@ -10,16 +10,16 @@
 
 <title>Lista rolników</title>
 
-<!-- Niestandardowe czcionki dla tego szablonu -->
+
 <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
 <link
     href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
     rel="stylesheet">
 
-<!-- Niestandardowe style dla tego szablonu -->
+
 <link href="css/sb-admin-2.css" rel="stylesheet">
 
-<!-- Niestandardowe style dla tej strony -->
+
 <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 <link href="css/buttons.css" rel="stylesheet">
 <link href="css/footer.css" rel="stylesheet">
@@ -47,12 +47,12 @@
             font-size: 20px;
         }
         tr.odd {
-    background-color: rgba(255, 255, 255, 0); /* Tutaj możesz ustawić kolor dla nieparzystych wierszy */
+    background-color: rgba(255, 255, 255, 0); 
 }
 
-/* Styl dla parzystych wierszy */
+
 tr.even {
-    background-color: rgba(200, 200, 200, .4); /* Tutaj możesz ustawić kolor dla parzystych wierszy */
+    background-color: rgba(200, 200, 200, .4); 
 }
 
         .powrot {
@@ -142,19 +142,19 @@ tr.even {
             font-weight: bold;
             margin-top: 30px;
         }
-        /* Styl dla nieparzystych wierszy */
+        
 tr.odd {
     background-color: rgba(255, 255, 255, 0);
 }
 
-/* Styl dla parzystych wierszy */
+
 tr.even {
     background-color: rgba(200, 200, 200, .4);
 }
 
-/* Efekt przyciemnienia po najechaniu */
+
 tr:hover {
-    background-color: rgba(0, 0, 0, 0.2); /* Tutaj możesz ustawić kolor tła po najechaniu */
+    background-color: rgba(0, 0, 0, 0.2); 
 }
 
 
@@ -171,23 +171,23 @@ tr:hover {
             <a href="/logout.php" class="navbar-button">Wyloguj</a>
         </div>
     </nav>
-    <!-- Zawartość strony -->
+    
 <div id="wrapper">
     
 
-<!-- Kontener zawartości -->
+
 <div id="content-wrapper" class="d-flex flex-column">
 
-    <!-- Główna zawartość -->
+    
     <div id="content">
 
-        <!-- Początek zawartości strony -->
+        
         <div class="container-fluid">
             
 
             
 
-            <!-- Przykład tabeli -->
+           
 
                 <div class="card-header py-3">
                     <h6 class="m-0 font-weight-bold text-primary">Lista rolników</h6>
@@ -216,22 +216,22 @@ tr:hover {
                             <tbody>
                                         <?php
                                         $counter = 0;
-                                        // Connect to the database
+                                        
                                         $conn = mysqli_connect("mysql8", "37328198_fermy", "R&b^7C!pD*2@", "37328198_fermy");
 
-                                        // Check connection
+                                        
                                         if ($conn->connect_error) {
                                             die("Connection failed: " . $conn->connect_error);
                                         }
 
-                                        // Fetch farmers from the database
+                                        
                                         $sql = "SELECT id, imie, nazwisko, adres, nip, numer_telefonu FROM users";
                                         $result = $conn->query($sql);
 
                                         if ($result->num_rows > 0) {
-                                            // Output data of each farmer
+                                            
                                             while ($row = $result->fetch_assoc()) {
-                                                // Sprawdzenie, czy wiersz jest parzysty czy nieparzysty
+                                                
                                                 $row_class = ($counter % 2 === 0) ? 'even' : 'odd';
                                                 $counter++;
                                                 echo "<tr class='$row_class' onclick=\"window.location='indexadmin.php?id=" . $row["id"] . "'\">";
@@ -246,7 +246,7 @@ tr:hover {
                                             echo "<tr><td colspan='5'>No farmers found</td></tr>";
                                         }
 
-                                        // Close the database connection
+                                        
                                         $conn->close();
                                         ?>
                                     </tbody>
@@ -255,18 +255,18 @@ tr:hover {
                 </div>
 
         </div>
-        <!-- /.container-fluid -->
+        
 
     </div>
-    <!-- Koniec głównej zawartości -->
+    
 
 </div>
-<!-- Koniec kontenera zawartości -->
+
 
 </div>
-<!-- Koniec zawartości strony -->
 
-<!-- Przycisk przewijania do góry -->
+
+
 <a class="scroll-to-top rounded" href="#page-top">
 <i class="fas fa-angle-up"></i>
 </a>
@@ -304,21 +304,21 @@ tr:hover {
             }
         </script>
 
-<!-- Skrypty podstawowe Bootstrapa -->
+
 <script src="vendor/jquery/jquery.min.js"></script>
 <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-<!-- Wtyczki skryptów podstawowych -->
+
 <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
 
-<!-- Niestandardowe skrypty dla wszystkich stron -->
+
 <script src="js/sb-admin-2.min.js"></script>
 
-<!-- Wtyczki skryptów dla tej strony -->
+
 <script src="vendor/datatables/jquery.dataTables.js"></script>
 <script src="vendor/datatables/dataTables.bootstrap4.js"></script>
 
-<!-- Niestandardowe skrypty dla tej strony -->
+
 <script src="js/demo/datatables-demo.js"></script>
 </body>
 </html>

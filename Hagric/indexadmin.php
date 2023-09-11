@@ -1,20 +1,20 @@
 <?php
 session_start();
 
-// Sprawdzenie czy użytkownik jest zalogowany
+
 if (!isset($_SESSION['user_id'])) {
-    // Przekierowanie na stronę logowania
+    
     header("Location: login.html");
     exit();
 }
 
-// Pobranie ID zalogowanego użytkownika
+
 $user_id = $_SESSION['user_id'];
 
-// Połączenie z bazą danych
+
 $conn = mysqli_connect("mysql8", "37328198_fermy", "R&b^7C!pD*2@", "37328198_fermy");
 
-// Pobranie informacji o użytkowniku
+
 $query = "SELECT * FROM users WHERE id = $user_id";
 $result = mysqli_query($conn, $query);
 
@@ -68,7 +68,7 @@ $result = mysqli_query($conn, $query);
 <body>
     <div class='container'>
         <?php
-        // Wyświetlenie informacji o użytkowniku
+        
         $email = $row['username'];
         $nip = $row['nip'];
         $numertel = $row['numer_telefonu'];
@@ -90,11 +90,11 @@ $result = mysqli_query($conn, $query);
                 if (isset($_GET['id'])) {
                     $user_id = $_GET['id'];
 
-                    // Pobranie informacji o fermach przypisanych do danego użytkownika
+                    
                     $query = "SELECT * FROM lista_ferm WHERE user_id = $user_id";
                     $result = mysqli_query($conn, $query);
 
-                    // Wyświetlenie informacji o fermach użytkownika
+                    
                     while ($row = mysqli_fetch_assoc($result)) {
                         $id_fermy = $row['id'];
                         $nazwa_fermy = $row['nazwa'];

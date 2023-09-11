@@ -3,7 +3,7 @@
 html, body {
   height: 100%;
 }
-/* Login Card Logo */
+
 .login-card-logo {
   margin-bottom: 2rem;
 }
@@ -11,7 +11,7 @@ html, body {
 .login-card-logo img {
   width: 400px;
 }
-/* ---------- */
+
 a{
   border: none;
   letter-spacing: 2px;
@@ -50,9 +50,7 @@ body {
 	overflow-y: scroll;
 	margin-bottom: 25px;
 }
-/*
- *  STYLE 7
- */
+
 
  #scrollbar-1::-webkit-scrollbar-track
  {
@@ -178,8 +176,8 @@ body {
   margin-top: 0.25rem;
 }
 .list-container {
-  height: 480px; /* Ustawienie stałej wysokości */
-  overflow: auto; /* Dodanie paska przewijania */
+  height: 480px; 
+  overflow: auto; 
 }
 .button {
   font-family: 'Poppins', sans-serif;

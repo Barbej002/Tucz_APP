@@ -7,12 +7,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,600,0,0" />
-    <!-- Custom fonts for this template -->
+    
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link href="css/buttons.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
-    <!-- Custom styles for this template -->
+    
     <link href="css/sb-admin-2.css" rel="stylesheet">
     <link href="css/footer.css" rel="stylesheet">
     <link href="css/navbar.css" rel="stylesheet">
@@ -26,12 +26,12 @@
             background-color: #fcddbe;
         }
         tr.odd {
-    background-color: rgba(255, 255, 255, 0); /* Tutaj możesz ustawić kolor dla nieparzystych wierszy */
+    background-color: rgba(255, 255, 255, 0); 
 }
 
-/* Styl dla parzystych wierszy */
+
 tr.even {
-    background-color: rgba(200, 200, 200, .4); /* Tutaj możesz ustawić kolor dla parzystych wierszy */
+    background-color: rgba(200, 200, 200, .4); 
 }
 
 
@@ -127,7 +127,7 @@ tr.even {
 <body>
 <div id="content-wrapper" class="d-flex flex-column">
 
-<!-- Main Content -->
+
 <div id="content">
 <nav class="navbar">
 <div class="navbar-buttons">
@@ -145,20 +145,20 @@ tr.even {
 
     
         <?php
-        // Sprawdzenie czy użytkownik jest zalogowany
+        
         session_start();
         if (!isset($_SESSION['user_id'])) {
-            // Przekierowanie na stronę logowania
+            
             header("Location: login.html");
             exit();
         }
     
-        // Dane do połączenia z bazą danych
+        
         $host = "mysql8";
         $dbname = "37328198_fermy";
         $username = "37328198_fermy";
         $password = "R&b^7C!pD*2@";
-        // Łączenie z bazą danych
+        
         try {
             $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -168,11 +168,11 @@ tr.even {
     
         $idf = $_GET['idf'];
     
-        // Sprawdzenie, czy zostało przekazane ID stada
+        
         if (isset($_GET['id'])) {
             $id_stada = $_GET['id'];
     
-            // Pobranie informacji o upadkach dla danego stada
+            
             $query = "SELECT * FROM informacje_upadki WHERE id_stada = :id_stada";
             $stmt = $pdo->prepare($query);
             $stmt->bindParam(':id_stada', $id_stada);
@@ -180,7 +180,7 @@ tr.even {
             $informacje_upadki = $stmt->fetchAll(PDO::FETCH_ASSOC);
     
             if (count($informacje_upadki) > 0) {
-                // Wyświetlanie tabeli z informacjami o upadkach
+                
                 echo "<div class='card shadow mb-4'>";
                 echo "<div class='card-header py-3'>";
                 echo "<h6 class='m-0 font-weight-bold text-primary'>Informacje o stadach</h6>";
@@ -195,7 +195,7 @@ tr.even {
     
                 $counter = 0;
                 foreach ($informacje_upadki as $informacja) {
-                            // Sprawdzenie, czy wiersz jest parzysty czy nieparzysty
+                            
         $row_class = ($counter % 2 === 0) ? 'even' : 'odd';
         $counter++;
                     echo "<tr class='$row_class'>";
@@ -206,7 +206,7 @@ tr.even {
     
                     $id_upadku = $informacja['id'];
     
-                    // Pobranie informacji o załącznikach dla danego upadku
+                    
                     $query = "SELECT * FROM pliki_upadki WHERE id_upadku = :id_upadku";
                     $stmt = $pdo->prepare($query);
                     $stmt->bindParam(':id_upadku', $id_upadku);

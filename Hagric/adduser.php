@@ -19,21 +19,21 @@
 <div class="login-card-container">
 <div class="login-card">
 <?php
-            // Sprawdzenie czy użytkownik jest zalogowany
+            
             session_start();
             if (!isset($_SESSION['user_id'])) {
-                // Przekierowanie na stronę logowania
+                
                 header("Location: login.html");
                 exit();
             }
 
-            // Dane do połączenia z bazą danych
+            
             $host = "mysql8";
             $dbname = "37328198_fermy";
             $username = "37328198_fermy";
             $password = "R&b^7C!pD*2@";
 
-            // Łączenie z bazą danych
+           
             try {
                 $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
                 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -41,9 +41,9 @@
                 die("Nie można połączyć się z bazą danych: " . $e->getMessage());
             }
 
-            // Sprawdzenie czy formularz został wysłany
+            
             if (isset($_POST['submit'])) {
-                // Pobranie danych z formularza
+                
                 $username = $_POST['username'];
                 $nip = $_POST['nip'];
                 $password = $_POST['password'];
@@ -53,10 +53,10 @@
                 $adres = $_POST['adres'];
 
                 try {
-                    // Rozpoczęcie transakcji
+                    
                     $pdo->beginTransaction();
 
-                    // Wstawienie danych do tabeli "users"
+                    
                     $query = "INSERT INTO users (username, nip, password, numer_telefonu, imie, nazwisko, adres) VALUES (:username, :nip, :password, :numer_telefonu, :imie, :nazwisko, :adres)";
                     $stmt = $pdo->prepare($query);
                     $stmt->bindParam(':username', $username);
@@ -68,14 +68,14 @@
                     $stmt->bindParam(':adres', $adres);
                     $stmt->execute();
 
-                    // Zatwierdzenie transakcji
+                    
                     $pdo->commit();
 
-                    // Przekierowanie użytkownika na stronę z danymi na temat danej fermy
+                    
                     header("Location: index.php");
                     exit();
                 } catch (PDOException $e) {
-                    // Wycofanie transakcji w przypadku błędu
+                    
                     $pdo->rollBack();
                     echo "Błąd zapytania: " . $e->getMessage();
                 }

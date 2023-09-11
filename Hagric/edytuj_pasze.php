@@ -1,36 +1,36 @@
 <?php
-// Sprawdzenie czy użytkownik jest zalogowany
+
 session_start();
 if (!isset($_SESSION['user_id'])) {
-    // Przekierowanie na stronę logowania
+    
     header("Location: login.html");
     exit();
 }
 
-// Dane połączenia z bazą danych
+
 $servername = "mysql8";
 $username = "37328198_fermy";
 $password = "R&b^7C!pD*2@";
 $dbname = "37328198_fermy";
 
-// Id_fermy przekazane w linku
+
 $id_fermy = $_GET['id'];
 
-// Sprawdzanie czy id_fermy zostało przekazane
+
 if (isset($id_fermy)) {
     $conn = new mysqli($servername, $username, $password, $dbname);
     if ($conn->connect_error) {
         die("Błąd połączenia z bazą danych: " . $conn->connect_error);
     }
     
-    // Sprawdzanie czy formularz został przesłany
+    
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        // Pobieranie danych o paszy z formularza
+        
         $ilosc_pasz_starter = $_POST['ilosc_pasz_starter'];
         $ilosc_pasz_grower = $_POST['ilosc_pasz_grower'];
         $ilosc_pasz_finisher = $_POST['ilosc_pasz_finisher'];
         
-        // Zapytanie SQL dla aktualizacji rekordów
+        
         $sql = "UPDATE pasza SET
                 ilosc_paszy = CASE
                     WHEN nazwa_paszy = 'starter' THEN '$ilosc_pasz_starter'
@@ -40,7 +40,7 @@ if (isset($id_fermy)) {
                 WHERE id_fermy = '$id_fermy' AND
                 nazwa_paszy IN ('starter', 'grower', 'finisher')";
         
-        // Wykonanie zapytania
+        
         if ($conn->query($sql) === TRUE) {
             header("Location: informacje_fermy.php?id=$id_fermy");
             exit();
@@ -49,7 +49,7 @@ if (isset($id_fermy)) {
         }
     }
 
-    // Pobieranie ilości paszy dla poszczególnych typów
+    
     $query = "SELECT ilosc_paszy FROM pasza WHERE id_fermy='$id_fermy' AND nazwa_paszy='starter'";
     $result = $conn->query($query);
     if ($result && $result->num_rows > 0) {
@@ -77,7 +77,7 @@ if (isset($id_fermy)) {
         $finisher = '';
     }
 
-    // Zamykanie połączenia z bazą danych
+    
     $conn->close();
 }
 ?>
