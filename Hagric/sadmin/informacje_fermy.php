@@ -121,12 +121,12 @@ tr.odd {
     background-color: rgba(255, 255, 255, 0); 
 }
 
-/* Styl dla parzystych wierszy */
+
 tr.even {
     background-color: rgba(200, 200, 200, .4); 
 }
 
-        /* Responsive styles */
+
         @media (max-width: 768px) {
             .navbar-buttons {
                 justify-content: flex-end; 
@@ -152,7 +152,14 @@ tr.even {
         </div>
         <a href="#" class="navbar-logo"><?php
 
-$conn = mysqli_connect("mysql8", "37328198_fermy", "R&b^7C!pD*2@", "37328198_fermy");
+require_once('db_config.php');
+
+try {
+    $pdo = new PDO("mysql:host=$host;dbname=$database;charset=utf8", $username, $password);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    die("Nie można połączyć się z bazą danych: " . $e->getMessage());
+}
 
 $id = $_GET['id'];
 $idf = $_GET['id']; 
@@ -161,7 +168,7 @@ $result = mysqli_query($conn, $query);
 $row = mysqli_fetch_assoc($result);
 echo $row['nazwa'];?></a>
         <div class="navbar-buttons">
-            <a href="/logout.php" class="navbar-button">Wyloguj</a>
+            <a href="/Hagric/logout.php" class="navbar-button">Wyloguj</a>
         </div>
     </nav>
 
@@ -170,7 +177,14 @@ echo $row['nazwa'];?></a>
 
 <?php
 
-$conn = mysqli_connect("mysql8", "37328198_fermy", "R&b^7C!pD*2@", "37328198_fermy");
+require_once('db_config.php');
+
+try {
+    $pdo = new PDO("mysql:host=$host;dbname=$database;charset=utf8", $username, $password);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    die("Nie można połączyć się z bazą danych: " . $e->getMessage());
+}
 
 $id = $_GET['id'];
 $idf = $_GET['id'];
@@ -290,7 +304,14 @@ echo "</div>";
 <div class="content">
     <div class="info">
         <?php
-$conn = mysqli_connect("mysql8", "37328198_fermy", "R&b^7C!pD*2@", "37328198_fermy");
+            require_once('db_config.php');
+
+            try {
+                $pdo = new PDO("mysql:host=$host;dbname=$database;charset=utf8", $username, $password);
+                $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            } catch (PDOException $e) {
+                die("Nie można połączyć się z bazą danych: " . $e->getMessage());
+            }
         $id = $_GET['id'];
         $idf = $_GET['id'];
 

@@ -138,20 +138,16 @@
 </div>
 <a href="#" class="navbar-logo">Informacje o upadkach</a>
 <div class="navbar-buttons">
-            <a href="/logout.php" class="navbar-button">Wyloguj</a>
+            <a href="/Hagric/logout.php" class="navbar-button">Wyloguj</a>
         </div>
     </nav>
 
     <?php
     
-    $host = "mysql8";
-    $dbname = "37328198_fermy";
-    $username = "37328198_fermy";
-    $password = "R&b^7C!pD*2@";
+    require_once('db_config.php');
 
-    
     try {
-        $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
+        $pdo = new PDO("mysql:host=$host;dbname=$database;charset=utf8", $username, $password);
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     } catch (PDOException $e) {
         die("Nie można połączyć się z bazą danych: " . $e->getMessage());

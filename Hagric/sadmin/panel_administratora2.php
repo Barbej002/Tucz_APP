@@ -46,6 +46,14 @@
 </head>
 
 <body>
+    <?php
+session_start();
+        if (!isset($_SESSION['user_id'])) {
+            
+            header("Location: /Hagric/login.html");
+            exit();
+        }
+        ?>
     <div class='container'>
         <div class='floating-stack'>
             <div class="login-card-logo">
@@ -56,7 +64,7 @@
                 <a href='zgloszenia.php'>Zgłoszenia problemów</a>
                 <a href='zgloszenia_leczenia.php'>Zgłoszone leczenia</a>
                 <a href='upadki.php'>Upadki</a>
-                <a href='/logout.php'>Wyloguj</a>
+                <a href='/Hagric/logout.php'>Wyloguj</a>
             </div>
         </div>
     </div>

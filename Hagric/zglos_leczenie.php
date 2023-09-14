@@ -1,34 +1,44 @@
 <?php
 
-require_once 'db_config.php'; 
+$conn = mysqli_connect("localhost", "root", "", "fermy");
 
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
 
 if (isset($_POST['submit'])) {
-    
     $data = $_POST['data'];
     $id_stada = $_POST['id_stada'];
     $preparat = $_POST['preparat'];
     $dawkowanie = $_POST['dawkowanie'];
     $okres = $_POST['okres'];
-    $opinia = $_POST['opinia'];
+    $powod_podania = $_POST['opinia'];
 
+    // Przygotowanie zapytania SQL z użyciem prepared statement
+    $sql = "INSERT INTO zgloszenia_leczen (data, id_stada, preparat, dawkowanie, okres, powod_podania)
+            VALUES (?, ?, ?, ?, ?, ?)";
 
-    $sql = "INSERT INTO zgloszenia_leczen (data, id_stada, preparat, dawkowanie, okres, opinia)
-            VALUES ('$data', '$id_stada', '$preparat', '$dawkowanie', '$okres', '$opinia')";
+    $stmt = mysqli_prepare($conn, $sql);
 
-
-
-    $id_fermy = $_GET['id'];
-    if (mysqli_query($conn, $sql)) {
-        header("Location: informacje_fermy.php?id=$id_fermy");
-    } else {
-        echo "Błąd: " . mysqli_error($conn);
+    if ($stmt === false) {
+        die("Błąd przy przygotowywaniu zapytania: " . mysqli_error($conn));
     }
 
+    // Bindowanie parametrów
+    mysqli_stmt_bind_param($stmt, "sissss", $data, $id_stada, $preparat, $dawkowanie, $okres, $powod_podania);
 
+    // Wykonanie zapytania
+    if (mysqli_stmt_execute($stmt)) {
+        echo "Dane zostały dodane do bazy danych.";
+        header("Location: index.php");
+    } else {
+        echo "Błąd podczas dodawania danych do bazy danych: " . mysqli_error($conn);
+    }
+
+    // Zamykanie prepared statement
+    mysqli_stmt_close($stmt);
     mysqli_close($conn);
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -139,7 +149,7 @@ if (isset($_GET['id'])) {
                     <label for="okres">Okres (opcjonalnie):</label>
                     <input type="text" name="okres" id="okres">
 
-                    <label for="okres">Opinia (opcjonalnie):</label>
+                    <label for="powod_podania">Powód podania leku (opcjonalnie):</label>
                     <input type="text" name="opinia" id="opinia">
 
                     </div>

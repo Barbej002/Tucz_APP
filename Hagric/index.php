@@ -12,7 +12,14 @@ if (!isset($_SESSION['user_id'])) {
 $user_id = $_SESSION['user_id'];
 
 
-$conn = mysqli_connect("mysql8", "37328198_fermy", "R&b^7C!pD*2@", "37328198_fermy");
+require_once('db_config.php');
+
+try {
+    $pdo = new PDO("mysql:host=$host;dbname=$database;charset=utf8", $username, $password);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    die("Nie można połączyć się z bazą danych: " . $e->getMessage());
+}
 
 
 $query = "SELECT * FROM users WHERE id = $user_id";
@@ -21,19 +28,16 @@ $result = mysqli_query($conn, $query);
 
 $row = mysqli_fetch_assoc($result);
 
-if ($row['administrator'] == true) {
-    
-    if ($row['administrator'] == 'boss') {
-        
-        header("Location: sadmin/panel_administratora2.php");
-        exit();
-    } else {
-        
-        header("Location: panel_administratora.php");
-        exit();
-    }
+if ($row['administrator'] == 'True') {
+    header("Location: panel_administratora.php");
+    exit();
+} elseif ($row['administrator'] == 'boss') {
+    header("Location: sadmin/panel_administratora2.php");
+    exit();
+} elseif ($row['administrator'] == 'barto') {
+    header("Location: bartosz/panel_administratora.php");
+    exit();
 } else {
-    
 
 
 ?>
@@ -145,6 +149,6 @@ if ($row['administrator'] == true) {
 </body>
 <?php
     exit();
-}
+                    }
 ?>
 </html>

@@ -224,13 +224,14 @@ tr:hover {
                                         <?php
                                         $counter = 0;
                                         
-                                        $conn = mysqli_connect("mysql8", "37328198_fermy", "R&b^7C!pD*2@", "37328198_fermy");
+                                        require_once('db_config.php');
 
-                                        
-                                        if ($conn->connect_error) {
-                                            die("Connection failed: " . $conn->connect_error);
+                                        try {
+                                            $pdo = new PDO("mysql:host=$host;dbname=$database;charset=utf8", $username, $password);
+                                            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                                        } catch (PDOException $e) {
+                                            die("Nie można połączyć się z bazą danych: " . $e->getMessage());
                                         }
-
                                        
                                         $sql = "SELECT id, imie, nazwisko, adres, nip, numer_telefonu FROM users";
                                         $result = $conn->query($sql);

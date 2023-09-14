@@ -31,7 +31,14 @@ if (!isset($_SESSION['user_id'])) {
 $id = $_GET['id'];
 
 
-$conn = mysqli_connect("mysql8", "37328198_fermy", "R&b^7C!pD*2@", "37328198_fermy");
+require_once('db_config.php');
+
+try {
+    $pdo = new PDO("mysql:host=$host;dbname=$database;charset=utf8", $username, $password);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    die("Nie można połączyć się z bazą danych: " . $e->getMessage());
+}
 
 
 if (isset($_POST['submit'])) {

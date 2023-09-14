@@ -11,9 +11,14 @@ if (!isset($_SESSION['user_id'])) {
 
 $user_id = $_SESSION['user_id'];
 
+require_once('db_config.php');
 
-$conn = mysqli_connect("mysql8", "37328198_fermy", "R&b^7C!pD*2@", "37328198_fermy");
-
+try {
+    $pdo = new PDO("mysql:host=$host;dbname=$database;charset=utf8", $username, $password);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    die("Nie można połączyć się z bazą danych: " . $e->getMessage());
+}
 
 $query = "SELECT * FROM users WHERE id = $user_id";
 $result = mysqli_query($conn, $query);
@@ -124,7 +129,7 @@ if ($row['administrator'] == true) {
                 <a href='stworz_ferme.php'>Dodaj fermę</a>
             </div>
             <a href='zglos_problem.php'>Zgłoś problem</a>
-            <a href='logout.php'>Wyloguj</a>
+            <a href='/Hagric/logout.php'>Wyloguj</a>
         </div>
     </div>
     <div class="kontener">

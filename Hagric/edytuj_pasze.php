@@ -8,20 +8,17 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 
-$servername = "mysql8";
-$username = "37328198_fermy";
-$password = "R&b^7C!pD*2@";
-$dbname = "37328198_fermy";
-
+require_once('db_config.php');
 
 $id_fermy = $_GET['id'];
 
 
-if (isset($id_fermy)) {
-    $conn = new mysqli($servername, $username, $password, $dbname);
-    if ($conn->connect_error) {
-        die("Błąd połączenia z bazą danych: " . $conn->connect_error);
-    }
+try {
+    $pdo = new PDO("mysql:host=$host;dbname=$database;charset=utf8", $username, $password);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    die("Nie można połączyć się z bazą danych: " . $e->getMessage());
+}
     
     
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -79,7 +76,7 @@ if (isset($id_fermy)) {
 
     
     $conn->close();
-}
+
 ?>
 
 <!DOCTYPE html>

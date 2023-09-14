@@ -177,12 +177,14 @@
                                     <tbody>
                                         <?php
                                        
-                                        $conn = new mysqli("localhost", "root", "", "fermy");
+                                       require_once('db_config.php');
 
-                                        
-                                        if ($conn->connect_error) {
-                                            die("Connection failed: " . $conn->connect_error);
-                                        }
+                                       try {
+                                           $pdo = new PDO("mysql:host=$host;dbname=$database;charset=utf8", $username, $password);
+                                           $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                                       } catch (PDOException $e) {
+                                           die("Nie można połączyć się z bazą danych: " . $e->getMessage());
+                                       }                                       
 
                                         
                                         $sql = "SELECT imie, nazwisko, adres, nip, numer_telefonu FROM users";
