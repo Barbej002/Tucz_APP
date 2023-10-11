@@ -202,7 +202,7 @@ tr.even {
 <body id="page-top">
 <nav class="navbar">
 <div class="navbar-buttons">
-<a href="index.php" class="navbar-button">Powrót</a>
+<a href="informacje_fermy.php?id=<?php echo $id_fermy; ?>" class="navbar-button">Powrót</a>
 </div>
 <a href="#" class="navbar-logo">Historia sprzedaży</a>
 <div class="navbar-buttons">
