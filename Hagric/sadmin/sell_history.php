@@ -1,3 +1,27 @@
+<?php
+session_start();
+if (!isset($_SESSION['user_id'])) {
+    header("Location: login.html");
+    exit();
+}
+
+require_once('db_config.php');
+
+try {
+    $pdo = new PDO("mysql:host=$host;dbname=$database;charset=utf8", $username, $password);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    die("Nie można połączyć się z bazą danych: " . $e->getMessage());
+}
+
+// Pobieranie danych o sprzedażach ze wszystkich ferm
+$query = "SELECT s.id AS id_stada, s.numer_stada, sprzedane.date, sprzedane.nazwa_ubojni, sprzedane.waga, sprzedane.liczba_sztuk
+    FROM stada AS s
+    INNER JOIN sprzedane ON s.id = sprzedane.id_stada";
+$stmt = $pdo->prepare($query);
+$stmt->execute();
+$sprzedane_dane = $stmt->fetchAll(PDO::FETCH_ASSOC);
+?>
 
 <!DOCTYPE html>
 <html lang="pl">
@@ -8,7 +32,7 @@
 <meta name="description" content="">
 <meta name="author" content="">
 
-<title>Lista rolników</title>
+<title>Historia sprzedaż</title>
 
 
 <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -52,6 +76,7 @@
             margin-right: 2px;
             font-size: 20px;
         }
+
         tr.odd {
     background-color: rgba(255, 255, 255, 0); 
 }
@@ -77,7 +102,15 @@ tr.even {
     background-color: #222222;
     margin-top: 20px; 
 }
-        
+                .footer-text {
+            color: #fff;
+        }
+
+        .footer-link {
+            color: #fff;
+            font-weight: bold;
+            text-decoration: none;
+        }
 
         .kontener {
             padding-bottom: 30px;
@@ -132,7 +165,7 @@ tr.even {
             border-radius: 5px;
             cursor: pointer;
             text-decoration: none;
-            margin-bottom: 10px;
+            margin-bottom: 10px; 
         }
 
         .footer-text {
@@ -152,142 +185,71 @@ tr.even {
             margin-top: 30px;
         }
 
-        tr.odd {
-    background-color: rgba(255, 255, 255, 0);
-}
-
-
-tr.even {
-    background-color: rgba(200, 200, 200, .4);
-}
-
-
-tr:hover {
-    background-color: rgba(255, 153, 0, 0.8); 
-}
 
     </style>
 </head>
 <body id="page-top">
 <nav class="navbar">
 <div class="navbar-buttons">
-<a href="index.php" class="navbar-button">Powrót</a>
+<a href="panel_administratora2.php" class="navbar-button">Powrót</a>
 </div>
-<a href="#" class="navbar-logo">Informacje o rolnikach</a>
+<a href="#" class="navbar-logo">Historia sprzedaży</a>
 <div class="navbar-buttons">
-            <a href="logout.php" class="navbar-button">Wyloguj</a>
+            <a href="/Hagric/logout.php" class="navbar-button">Wyloguj</a>
         </div>
     </nav>
-    
-<div id="wrapper">
-    
 
 
-<div id="content-wrapper" class="d-flex flex-column">
-
-    
-    <div id="content">
-
-        
-        <div class="container-fluid">
-            
-
-            
-
-            
-
+    <div id="wrapper">
+    <div id="content-wrapper" class="d-flex flex-column">
+        <div id="content">
+            <div class="container-fluid">
                 <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">Lista rolników</h6>
+                    <h6 class="m-0 font-weight-bold text-primary">Historia sprzedaży ze wszystkich ferm</h6>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
                         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                             <thead>
-                                        <tr>
-                                            <th>Imię</th>
-                                            <th>Nazwisko</th>
-                                            <th>Adres</th>
-                                            <th>NIP</th>
-                                            <th>Numer telefonu</th>
-                                        </tr>
+                                <tr>
+                                    <th>Numer stada</th>
+                                    <th>Data</th>
+                                    <th>Nazwa ubojni</th>
+                                    <th>Waga</th>
+                                    <th>Ilość sprzedanych sztuk</th>
+                                </tr>
                             </thead>
-                            <tfoot>
-                            <tr>
-                                            <th>Imię</th>
-                                            <th>Nazwisko</th>
-                                            <th>Adres</th>
-                                            <th>NIP</th>
-                                            <th>Numer telefonu</th>
-                                        </tr>
-                            </tfoot>
                             <tbody>
-                                        <?php
-                                        $counter = 0;
-                                        
-                                        require_once('db_config.php');
-
-                                        try {
-                                            $pdo = new PDO("mysql:host=$host;dbname=$database;charset=utf8", $username, $password);
-                                            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-                                        } catch (PDOException $e) {
-                                            die("Nie można połączyć się z bazą danych: " . $e->getMessage());
-                                        }
-                                       
-                                        $sql = "SELECT id, imie, nazwisko, adres, nip, numer_telefonu FROM users";
-                                        $result = $conn->query($sql);
-
-                                        if ($result->num_rows > 0) {
-                                            
-                                            while ($row = $result->fetch_assoc()) {
-                                                
-                                                $row_class = ($counter % 2 === 0) ? 'even' : 'odd';
-                                                $counter++;
-                                                echo "<tr class='$row_class' onclick=\"window.location='indexadmin.php?id=" . $row["id"] . "'\">";
-                                                echo "<td>" . $row["imie"] . "</td>";
-                                                echo "<td>" . $row["nazwisko"] . "</td>";
-                                                echo "<td>" . $row["adres"] . "</td>";
-                                                echo "<td>" . $row["nip"] . "</td>";
-                                                echo "<td>" . $row["numer_telefonu"] . "</td>";
-                                                echo "</tr>";
-                                            }
-                                        } else {
-                                            echo "<tr><td colspan='5'>No farmers found</td></tr>";
-                                        }
-
-                                        
-                                        $conn->close();
-                                        ?>
-                                    </tbody>
+                                <?php
+                                if (count($sprzedane_dane) > 0) {
+                                    foreach ($sprzedane_dane as $dane) {
+                                        echo "<tr>";
+                                        echo "<td>" . $dane['numer_stada'] . "</td>";
+                                        echo "<td>" . $dane['date'] . "</td>";
+                                        echo "<td>" . $dane['nazwa_ubojni'] . "</td>";
+                                        echo "<td>" . $dane['waga'] . "</td>";
+                                        echo "<td>" . $dane['liczba_sztuk'] . "</td>";
+                                        echo "</tr>";
+                                    }
+                                } else {
+                                    echo "<tr><td colspan='5'>Brak informacji o sprzedażach ze wszystkich ferm.</td></tr>";
+                                }
+                                ?>
+                            </tbody>
                         </table>
                     </div>
                 </div>
-
+            </div>
         </div>
-        
-
     </div>
-    
-
 </div>
-
-
-</div>
-
-
-
-<a class="scroll-to-top rounded" href="#page-top">
-<i class="fas fa-angle-up"></i>
-</a>
-
-
-<div class="footer" style="padding-top:12px">
+<div class="footer">
     <p>
         <span class="footer-text">&copy;</span>
         <span class="current-year">Year</span>
-        <span class="footer-text";>Hagric - Developed by <a href="https://www.ac-it.pl/" target="_blank" class="footer-link">AC IT Sp. z o.o.</a></span>
+        <span class="footer-text">Hagric - Developed by <a href="https://www.ac-it.pl/" target="_blank" class="footer-link">AC IT Sp. z o.o.</a></span>
     </p>
 </div>
-        
 
         <script>
             const currentYear = new Date().getFullYear();

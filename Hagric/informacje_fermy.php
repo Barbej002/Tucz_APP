@@ -55,6 +55,11 @@ if (!isset($_SESSION['user_id'])) {
     margin-bottom: 10px;
     text-align: center;
     border-radius: 10px;
+    margin-right: 13px;
+}
+.efermy {
+    margin-right: 13px;
+    margin-top: 9px;
 }
 
 .accordion-header {
@@ -278,7 +283,7 @@ foreach ($stada as $stado) {
         $row_class = ($counter % 2 === 0) ? 'even' : 'odd';
         $counter++;
 
- 
+    if ($ilosc_sztuk > 0) { // Sprawdzamy, czy ilość sztuk jest większa od zera
     $query = "SELECT SUM(ilosc_padlych) AS suma_padlych FROM informacje_upadki WHERE id_stada=$id_stada";
     $result = mysqli_query($conn, $query);
     $row = mysqli_fetch_assoc($result);
@@ -307,10 +312,11 @@ foreach ($stada as $stado) {
     }
 
     echo "<td>$numer_stada</td><td>$opis</td><td>$ilosc_sztuk</td><td>$ilosc_padlych</td><td>$procent_padlych%</td><td>" . ($ilosc_sztuk - $ilosc_padlych) . "</td><td>$dzien_tuczu</td><td><a href='informacje_padle.php?id=$id_stada&idf=$idf'>informacje o padłych</a></td>";
-    echo "<td><a href='zglos_upadek.php?id=$id_stada&idf=$idf'>Zgłoś upadek</a>&nbsp;&nbsp;<a href=''>Sprzedaż</a></td>";
+    echo "<td><a href='zglos_upadek.php?id=$id_stada&idf=$idf'>Zgłoś upadek</a>&nbsp;&nbsp;<a href='sell.php?id=$id_stada&idf=$idf'>Sprzedaż</a></td>";
     
 
     echo "</tr>";
+}
 }
 echo "</tbody>";
 echo "</table>";
@@ -385,7 +391,9 @@ echo "</div>";
             <div class="buttons-container">
                 <div class="button-group">
         <a href="stworz_stado.php?id=<?php echo $idf; ?>" class="button">Dodaj stado</a>
+        <a href="sell_history.php?id=<?php echo $idf; ?>" class="button">Historia sprzedaży</a>
         <a href="zglos_leczenie.php?id=<?php echo $idf; ?>" class="button">Zgłoś leczenie</a>
+
     </div>
         </div>
 
@@ -407,7 +415,9 @@ echo "</div>";
             </div>
             <div class="buttons-container">
                 <div class="button-group">
+                    <div class="efermy">
         <a href='edytuj_ferme.php?id=<?php echo $id; ?>' class="button">Edytuj dane fermy</a>
+        </div>
         </div>
         </div>
         </div>

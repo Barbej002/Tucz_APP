@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="index.css" />
     <link href="css/footer.css" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,600,0,0" />
-    <title>Lista Ferm</title>
+    <title>Panel szefa</title>
     <style>
         .data-container {
             top: 50px;
@@ -24,7 +24,7 @@
             left: 50%;
             transform: translate(-50%, -50%);
             width: 450px;
-            height: 550px;
+            height: 570px;
             background: rgba(255, 255, 255, .5);
             padding: 4rem;
             border-radius: 10px;
@@ -62,6 +62,7 @@ session_start();
             <div class='list-container'>
                 <a href='lista_rolnikow.php'>Lista rolników</a>
                 <a href='zgloszenia.php'>Zgłoszenia problemów</a>
+                <a href='sell_history.php'>Zgłoszenia sprzedaży</a>
                 <a href='zgloszenia_leczenia.php'>Zgłoszone leczenia</a>
                 <a href='upadki.php'>Upadki</a>
                 <a href='/Hagric/logout.php'>Wyloguj</a>
