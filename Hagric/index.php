@@ -1,45 +1,39 @@
 <?php
 session_start();
 
-
 if (!isset($_SESSION['user_id'])) {
-    
     header("Location: login.html");
     exit();
 }
 
-
 $user_id = $_SESSION['user_id'];
-
 
 require_once('db_config.php');
 
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$database;charset=utf8", $username, $password);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    $query = "SELECT * FROM users WHERE id = $user_id";
+    $result = $pdo->query($query);
+    $row = $result->fetch();
+
+    if ($row['administrator'] == 'True') {
+        header("Location: panel_administratora.php");
+        exit();
+    } elseif ($row['administrator'] == 'boss') {
+        header("Location: sadmin/panel_administratora2.php");
+        exit();
+    } elseif ($row['administrator'] == 'barto') {
+        header("Location: bartosz/panel_administratora.php");
+        exit();
+    } elseif ($row['administrator'] == 'caregiver') {
+        header("Location: caregiver/caregiver.php");
+        exit();
+    }
 } catch (PDOException $e) {
     die("Nie można połączyć się z bazą danych: " . $e->getMessage());
 }
-
-
-$query = "SELECT * FROM users WHERE id = $user_id";
-$result = mysqli_query($conn, $query);
-
-
-$row = mysqli_fetch_assoc($result);
-
-if ($row['administrator'] == 'True') {
-    header("Location: panel_administratora.php");
-    exit();
-} elseif ($row['administrator'] == 'boss') {
-    header("Location: sadmin/panel_administratora2.php");
-    exit();
-} elseif ($row['administrator'] == 'barto') {
-    header("Location: bartosz/panel_administratora.php");
-    exit();
-} else {
-
-
 ?>
 
 <!DOCTYPE html>
@@ -146,9 +140,6 @@ if ($row['administrator'] == 'True') {
         const currentYear = new Date().getFullYear();
         document.querySelector(".current-year").textContent = currentYear;
     </script>
-</body>
-<?php
-    exit();
-                    }
-?>
-</html>
+    </body>
+    </html>
+                

@@ -24,7 +24,7 @@
             left: 50%;
             transform: translate(-50%, -50%);
             width: 450px;
-            height: 580px;
+            height: 630px;
             background: rgba(255, 255, 255, .5);
             padding: 4rem;
             border-radius: 10px;
@@ -56,6 +56,7 @@
                 <a href='zgloszenia.php'>Zgłoszenia problemów</a>
                 <a href='zgloszenia_leczenia.php'>Zgłoszone leczenia</a>
                 <a href='upadki.php'>Upadki</a>
+                <a href='create_caregiver.php'>Dodaj opiekuna</a>
                 <a href='adduser.php'>Dodaj rolnika</a>
                 <a href='logout.php'>Wyloguj</a>
             </div>
