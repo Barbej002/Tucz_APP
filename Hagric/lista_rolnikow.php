@@ -209,6 +209,7 @@ tr:hover {
                                             <th>Adres</th>
                                             <th>NIP</th>
                                             <th>Numer telefonu</th>
+                                            <th>Opiekn</th>
                                         </tr>
                             </thead>
                             <tfoot>
@@ -218,6 +219,7 @@ tr:hover {
                                             <th>Adres</th>
                                             <th>NIP</th>
                                             <th>Numer telefonu</th>
+                                            <th>Opiekn</th>
                                         </tr>
                             </tfoot>
                             <tbody>
@@ -233,30 +235,39 @@ tr:hover {
                                             die("Nie można połączyć się z bazą danych: " . $e->getMessage());
                                         }
                                        
-                                        $sql = "SELECT id, imie, nazwisko, adres, nip, numer_telefonu FROM users";
-                                        $result = $conn->query($sql);
 
-                                        if ($result->num_rows > 0) {
-                                            
-                                            while ($row = $result->fetch_assoc()) {
-                                                
-                                                $row_class = ($counter % 2 === 0) ? 'even' : 'odd';
-                                                $counter++;
-                                                echo "<tr class='$row_class' onclick=\"window.location='indexadmin.php?id=" . $row["id"] . "'\">";
-                                                echo "<td>" . $row["imie"] . "</td>";
-                                                echo "<td>" . $row["nazwisko"] . "</td>";
-                                                echo "<td>" . $row["adres"] . "</td>";
-                                                echo "<td>" . $row["nip"] . "</td>";
-                                                echo "<td>" . $row["numer_telefonu"] . "</td>";
-                                                echo "</tr>";
-                                            }
+                                        $sql = "SELECT u.id, u.imie, u.nazwisko, u.adres, u.nip, u.numer_telefonu, c.imie AS caregiver_imie, c.nazwisko AS caregiver_nazwisko
+                                        FROM users u
+                                        LEFT JOIN caregivers cg ON u.id = cg.farmer_id
+                                        LEFT JOIN users c ON cg.caregiver_id = c.id";
+            
+                                $result = $pdo->query($sql);
+            
+                                if ($result->rowCount() > 0) {
+                                    while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
+                                        $row_class = ($counter % 2 === 0) ? 'even' : 'odd';
+                                        $counter++;
+                                        echo "<tr class='$row_class' onclick=\"window.location='indexadmin.php?id=" . $row["id"] . "'\">";
+                                        echo "<td>" . $row["imie"] . "</td>";
+                                        echo "<td>" . $row["nazwisko"] . "</td>";
+                                        echo "<td>" . $row["adres"] . "</td>";
+                                        echo "<td>" . $row["nip"] . "</td>";
+                                        echo "<td>" . $row["numer_telefonu"] . "</td>";
+                                        echo "<td>";
+                                        if ($row["caregiver_imie"] && $row["caregiver_nazwisko"]) {
+                                            echo $row["caregiver_imie"] . " " . $row["caregiver_nazwisko"];
                                         } else {
-                                            echo "<tr><td colspan='5'>No farmers found</td></tr>";
+                                            echo "Brak opiekuna";
                                         }
-
-                                        
-                                        $conn->close();
-                                        ?>
+                                        echo "</td>";
+                                        echo "</tr>";
+                                    }
+                                } else {
+                                    echo "<tr><td colspan='6'>Brak danych</td></tr>";
+                                }
+            
+                                $pdo = null; // Zamykanie połączenia
+                                ?>
                                     </tbody>
                         </table>
                     </div>

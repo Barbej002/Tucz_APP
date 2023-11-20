@@ -26,6 +26,12 @@
 <link href="css/navbar.css" rel="stylesheet">
 
 <style>
+    #content-wrapper {
+    margin-top: 20px; 
+    margin-bottom: 60px; 
+    padding: 20px; 
+}
+
         body {
             overflow-x: hidden;
             background-image: url(background.jpg);
@@ -65,11 +71,13 @@ tr.even {
         }
 
         .footer {
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            background-color: #222222;
-        }
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background-color: #222222;
+    margin-top: 20px; 
+}
+        
 
         .kontener {
             padding-bottom: 30px;
@@ -77,13 +85,13 @@ tr.even {
 
         .tytul {
             text-align: center;
-            margin-top: 20px;
+            margin-top: 0;
             margin-bottom: 20px;
             font-size: 25px;
         }
 
         .card {
-            margin-top: 20px;
+            margin-top: 0;
         }
 
         .card-header {
@@ -124,6 +132,7 @@ tr.even {
             border-radius: 5px;
             cursor: pointer;
             text-decoration: none;
+            margin-bottom: 10px;
         }
 
         .footer-text {
@@ -142,8 +151,8 @@ tr.even {
             font-weight: bold;
             margin-top: 30px;
         }
-        
-tr.odd {
+
+        tr.odd {
     background-color: rgba(255, 255, 255, 0);
 }
 
@@ -154,21 +163,19 @@ tr.even {
 
 
 tr:hover {
-    background-color: rgba(0, 0, 0, 0.2); 
+    background-color: rgba(255, 153, 0, 0.8); 
 }
-
-
 
     </style>
 </head>
 <body id="page-top">
 <nav class="navbar">
 <div class="navbar-buttons">
-<a href="panel_administratora2.php" class="navbar-button">Powrót</a>
+<a href="index.php" class="navbar-button">Powrót</a>
 </div>
 <a href="#" class="navbar-logo">Informacje o rolnikach</a>
 <div class="navbar-buttons">
-            <a href="/Hagric/logout.php" class="navbar-button">Wyloguj</a>
+            <a href="logout.php" class="navbar-button">Wyloguj</a>
         </div>
     </nav>
     
@@ -187,7 +194,7 @@ tr:hover {
 
             
 
-           
+            
 
                 <div class="card-header py-3">
                     <h6 class="m-0 font-weight-bold text-primary">Lista rolników</h6>
@@ -202,6 +209,7 @@ tr:hover {
                                             <th>Adres</th>
                                             <th>NIP</th>
                                             <th>Numer telefonu</th>
+                                            <th>Opiekn</th>
                                         </tr>
                             </thead>
                             <tfoot>
@@ -211,6 +219,7 @@ tr:hover {
                                             <th>Adres</th>
                                             <th>NIP</th>
                                             <th>Numer telefonu</th>
+                                            <th>Opiekn</th>
                                         </tr>
                             </tfoot>
                             <tbody>
@@ -225,32 +234,40 @@ tr:hover {
                                         } catch (PDOException $e) {
                                             die("Nie można połączyć się z bazą danych: " . $e->getMessage());
                                         }
+                                       
 
-                                        
-                                        $sql = "SELECT id, imie, nazwisko, adres, nip, numer_telefonu FROM users";
-                                        $result = $conn->query($sql);
-
-                                        if ($result->num_rows > 0) {
-                                            
-                                            while ($row = $result->fetch_assoc()) {
-                                                
-                                                $row_class = ($counter % 2 === 0) ? 'even' : 'odd';
-                                                $counter++;
-                                                echo "<tr class='$row_class' onclick=\"window.location='indexadmin.php?id=" . $row["id"] . "'\">";
-                                                echo "<td>" . $row["imie"] . "</td>";
-                                                echo "<td>" . $row["nazwisko"] . "</td>";
-                                                echo "<td>" . $row["adres"] . "</td>";
-                                                echo "<td>" . $row["nip"] . "</td>";
-                                                echo "<td>" . $row["numer_telefonu"] . "</td>";
-                                                echo "</tr>";
-                                            }
+                                        $sql = "SELECT u.id, u.imie, u.nazwisko, u.adres, u.nip, u.numer_telefonu, c.imie AS caregiver_imie, c.nazwisko AS caregiver_nazwisko
+                                        FROM users u
+                                        LEFT JOIN caregivers cg ON u.id = cg.farmer_id
+                                        LEFT JOIN users c ON cg.caregiver_id = c.id";
+            
+                                $result = $pdo->query($sql);
+            
+                                if ($result->rowCount() > 0) {
+                                    while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
+                                        $row_class = ($counter % 2 === 0) ? 'even' : 'odd';
+                                        $counter++;
+                                        echo "<tr class='$row_class' onclick=\"window.location='indexadmin.php?id=" . $row["id"] . "'\">";
+                                        echo "<td>" . $row["imie"] . "</td>";
+                                        echo "<td>" . $row["nazwisko"] . "</td>";
+                                        echo "<td>" . $row["adres"] . "</td>";
+                                        echo "<td>" . $row["nip"] . "</td>";
+                                        echo "<td>" . $row["numer_telefonu"] . "</td>";
+                                        echo "<td>";
+                                        if ($row["caregiver_imie"] && $row["caregiver_nazwisko"]) {
+                                            echo $row["caregiver_imie"] . " " . $row["caregiver_nazwisko"];
                                         } else {
-                                            echo "<tr><td colspan='5'>No farmers found</td></tr>";
+                                            echo "Brak opiekuna";
                                         }
-
-                                        
-                                        $conn->close();
-                                        ?>
+                                        echo "</td>";
+                                        echo "</tr>";
+                                    }
+                                } else {
+                                    echo "<tr><td colspan='6'>Brak danych</td></tr>";
+                                }
+            
+                                $pdo = null; // Zamykanie połączenia
+                                ?>
                                     </tbody>
                         </table>
                     </div>
@@ -273,11 +290,15 @@ tr:hover {
 <i class="fas fa-angle-up"></i>
 </a>
 
-<div class="kontener">
-            <div class="footer">
-                <p><span class="footer-text">&copy;</span> <span class="current-year">Year</span> <span class="footer-text">Hagric - Developed by <a href="https://www.ac-it.pl/" target="_blank" class="footer-link">AC IT Sp. z o.o.</a></span></p>
-            </div>
-        </div>
+
+<div class="footer" style="padding-top:12px">
+    <p>
+        <span class="footer-text">&copy;</span>
+        <span class="current-year">Year</span>
+        <span class="footer-text";>Hagric - Developed by <a href="https://www.ac-it.pl/" target="_blank" class="footer-link">AC IT Sp. z o.o.</a></span>
+    </p>
+</div>
+        
 
         <script>
             const currentYear = new Date().getFullYear();

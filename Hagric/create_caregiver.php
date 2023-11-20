@@ -14,25 +14,36 @@
             background: linear-gradient(to right, #ff8800, #7c2e00);
         }
 
-        .farmers-container {
-            max-height: 200px;
-            overflow-y: auto;
-            background: rgba(255, 255, 255, .3);
-            padding: 1rem 1.5rem;
-            border-radius: 5px;
-        }
-        .farmers-container label {
-            display: block;
-            margin-bottom: 5px;
-        }
+        .search-container {
+    display: flex;
+    flex-direction: column;
+}
 
+.search {
+    margin-bottom: 10px;
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
 
+.farmers-container {
+    max-height: 200px;
+    overflow-y: auto;
+    background: rgba(255, 255, 255, .3);
+    border-radius: 3px;
+}
+
+.farmers-container label {
+    display: block;
+    margin-bottom: 5px;
+}
     </style>
 </head>
 
 <body>
     <div class="login-card-container">
         <div class="login-card">
+        <a href="logout.php" class="wyloguj" style='color: black;'>Wyloguj</a>
             <a href='index.php' class='powrot' style='color: black;'>Powrót</a>
 
             <h1>Dodaj opiekuna:</h1>
@@ -59,8 +70,12 @@
                 <label for="adres">Adres:</label>
                 <input type="text" name="adres" required><br>
 
-                <label>Wybierz rolników:</label><br>
-                <div class="farmers-container">
+                <label for="searchFarmers">Wyszukaj rolnika:</label><br>
+<div class="search-container">
+    <input class="search" type="text" id="searchFarmers" placeholder="Wyszukaj rolnika...">
+    <div class="farmers-container" id="farmersContainer">
+                <div>
+                <br></br>
                     <?php
                     try {
                         $pdo = new PDO("mysql:host=mysql8;dbname=37328198_fermy;charset=utf8", '37328198_fermy', 'R&b^7C!pD*2@');
@@ -78,6 +93,7 @@
                         echo "Błąd zapytania: " . $e->getMessage();
                     }
                     ?>
+                    </div>
                 </div>
 
                 <button type="submit" name="submit">Dodaj</button>
@@ -142,5 +158,47 @@
         
     }
     ?>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var searchFarmers = document.getElementById('searchFarmers');
+        var farmersContainer = document.getElementById('farmersContainer');
+        var labels = farmersContainer.querySelectorAll('.farmers-container label');
+
+        searchFarmers.addEventListener('input', function() {
+            var filter = this.value.toUpperCase();
+            var visibleLabels = [];
+
+            labels.forEach(function(label) {
+                var txtValue = label.textContent || label.innerText;
+                var isVisible = txtValue.toUpperCase().indexOf(filter) > -1;
+                label.style.display = isVisible ? 'block' : 'none';
+
+                if (isVisible) {
+                    visibleLabels.push(label);
+                }
+            });
+
+            visibleLabels.forEach(function(label) {
+                farmersContainer.prepend(label); 
+            });
+
+            var noResults = farmersContainer.querySelector('.no-results');
+
+            if (visibleLabels.length === 0) {
+                if (!noResults) {
+                    noResults = document.createElement('p');
+                    noResults.classList.add('no-results');
+                    noResults.textContent = 'Brak pasujących wyników';
+                    farmersContainer.appendChild(noResults);
+                }
+            } else {
+                if (noResults) {
+                    noResults.remove();
+                }
+            }
+        });
+    });
+</script>
 </body>
 </html>
