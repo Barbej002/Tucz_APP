@@ -116,7 +116,7 @@
     <label for="username">E-mail:</label>
     <input type="text" name="username" value="<?php echo $row['username']; ?>"><br>
 
-    <label for="nip">NIP:</label>
+    <label for="nip">NIP/PESEL:</label>
     <input type="number" name="nip" value="<?php echo $row['nip']; ?>"><br>
     
     <label for="password">Hasło:</label>

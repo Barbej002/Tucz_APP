@@ -183,7 +183,7 @@ tr:hover {
 </div>
 <a href="#" class="navbar-logo">Informacje o rolnikach</a>
 <div class="navbar-buttons">
-            <a href="logout.php" class="navbar-button">Wyloguj</a>
+            <a href="/Hagric/logout.php" class="navbar-button">Wyloguj</a>
         </div>
     </nav>
     

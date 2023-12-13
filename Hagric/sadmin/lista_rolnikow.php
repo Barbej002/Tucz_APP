@@ -171,7 +171,7 @@ tr:hover {
 <body id="page-top">
 <nav class="navbar">
 <div class="navbar-buttons">
-<a href="index.php" class="navbar-button">Powrót</a>
+<a href="panel_administratora2.php" class="navbar-button">Powrót</a>
 </div>
 <a href="#" class="navbar-logo">Informacje o rolnikach</a>
 <div class="navbar-buttons">
@@ -236,10 +236,11 @@ tr:hover {
                                         }
                                        
 
-                                        $sql = "SELECT u.id, u.imie, u.nazwisko, u.adres, u.nip, u.numer_telefonu, c.imie AS caregiver_imie, c.nazwisko AS caregiver_nazwisko
+                                        $sql = "SELECT u.id, u.imie, u.nazwisko, u.adres, u.nip, u.numer_telefonu, u.administrator, c.imie AS caregiver_imie, c.nazwisko AS caregiver_nazwisko
                                         FROM users u
                                         LEFT JOIN caregivers cg ON u.id = cg.farmer_id
-                                        LEFT JOIN users c ON cg.caregiver_id = c.id";
+                                        LEFT JOIN users c ON cg.caregiver_id = c.id
+                                        WHERE u.administrator IS NULL";
             
                                 $result = $pdo->query($sql);
             

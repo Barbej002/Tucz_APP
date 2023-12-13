@@ -122,8 +122,16 @@ a{
     font-size: calc(1rem * .8);
     margin-top: 2rem; 
 }
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
 
 .login-card input[type="text"],
+.login-card input[type="tel"],
 .login-card input[type="number"],
 .login-card input[type="password"],
 .login-card input[type="email"] {

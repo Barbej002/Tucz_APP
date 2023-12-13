@@ -1,6 +1,6 @@
 <?php
 
-$conn = mysqli_connect("mysql8", "37328198_fermy", "R&b^7C!pD*2@", "37328198_fermy");
+$conn = mysqli_connect("localhost", "root", "", "fermy");
 
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);

@@ -9,6 +9,6 @@ unset($_SESSION['user_id']);
 session_destroy();
 
 
-header("Location: /login.html");
+header("Location: /Hagric/login.html");
 exit();
 ?>

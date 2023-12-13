@@ -236,10 +236,11 @@ tr:hover {
                                         }
                                        
 
-                                        $sql = "SELECT u.id, u.imie, u.nazwisko, u.adres, u.nip, u.numer_telefonu, c.imie AS caregiver_imie, c.nazwisko AS caregiver_nazwisko
+                                        $sql = "SELECT u.id, u.imie, u.nazwisko, u.adres, u.nip, u.numer_telefonu, u.administrator, c.imie AS caregiver_imie, c.nazwisko AS caregiver_nazwisko
                                         FROM users u
                                         LEFT JOIN caregivers cg ON u.id = cg.farmer_id
-                                        LEFT JOIN users c ON cg.caregiver_id = c.id";
+                                        LEFT JOIN users c ON cg.caregiver_id = c.id
+                                        WHERE u.administrator IS NULL";
             
                                 $result = $pdo->query($sql);
             

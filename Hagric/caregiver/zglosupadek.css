@@ -53,6 +53,12 @@ a{
     width: 400px;
 }
 
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
 .login-card-logo,
 .login-card-header,
 .login-card-footer {

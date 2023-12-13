@@ -152,8 +152,25 @@ echo "<a href='logout.php' class='wyloguj'; style='color: black;'>Wyloguj</a>";
                     <div class="in">
                         <input type="date" name="data" id="data" required>
                     </div>
+
                     <label for="przyczyna">Przyczyna:</label>
-                    <input type="text" name="przyczyna" id="przyczyna" required>
+                    <div class="select-dropdown">
+                        <select name="przyczyna" id="przyczyna" required>
+                            <option value="">Wybierz przyczynę</option>
+                            <option value="Strepto">Strepto</option>
+                            <option value="Glasser">Glasser</option>
+                            <option value="Kolibakterioza">Kolibakterioza</option>
+                            <option value="Wrzody">Wrzody</option>
+                            <option value="Beztlenowiec">Beztlenowiec</option>
+                            <option value="Kanibalizm">Kanibalizm</option>
+                            <option value="APP">APP</option>
+                            <option value="Prrs">Prrs</option>
+                            <option value="Charłaczy">Charłaczy</option>
+                            <option value="PCV">PCV</option>
+                            <option value="INNE">INNE</option>
+                            
+                        </select>
+                    </div>
 
                     <label for="opiniujacy">Opiniujący:</label>
                     <div class="select-dropdown">

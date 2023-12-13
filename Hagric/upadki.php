@@ -231,6 +231,7 @@ tr.even {
                                             <th>Ilość padłych</th>
                                             <th>Przyczyna</th>
                                             <th>Opiniujący</th>
+                                            <th>Data</th>
                                             <th>Załączniki</th>
                                             <th>Właściciel fermy</th>
                                         </tr>

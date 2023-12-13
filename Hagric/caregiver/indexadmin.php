@@ -115,8 +115,11 @@ $result = mysqli_query($conn, $query);
                     </dl>
                 </div>
             </div>
-            <a href='lista_rolnikow.php'>Powrót</a>
+           <?php echo "<a href='stworz_ferme.php?id=$user_id'>Dodaj fermę</a>"
+           ?>
+            
         </div>
+        <a href='lista_rolnikow.php'>Powrót</a>
         <a href='/logout.php'>Wyloguj</a>
     </div>
     <div class="kontener">

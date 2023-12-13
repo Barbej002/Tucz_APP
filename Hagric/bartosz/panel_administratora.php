@@ -53,7 +53,7 @@
             </div>
             <div class='list-container'>
                 <a href='zgloszenia_leczenia.php'>Zgłoszone leczenia</a>
-                <a href='logout.php'>Wyloguj</a>
+                <a href='/Hagric/logout.php'>Wyloguj</a>
             </div>
         </div>
     </div>

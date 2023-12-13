@@ -186,7 +186,7 @@ tr.even {
                 echo "<div class='table-responsive'>";
                 echo "<table class='table table-bordered' id='dataTable' width='100%' cellspacing='0'>";
                 echo "<thead>";
-                echo "<tr><th>ID Stada</th><th>Ilość Padłych</th><th>Przyczyna</th><th>Opiniujący</th><th>Załączniki</th></tr>";
+                echo "<tr><th>ID Stada</th><th>Ilość Padłych</th><th>Przyczyna</th><th>Opiniujący</th><th>Data</th><th>Załączniki</th></tr>";
                 echo "</thead>";
                 echo "<tbody>";
     
@@ -200,6 +200,7 @@ tr.even {
                     echo "<td>" . $informacja['ilosc_padlych'] . "</td>";
                     echo "<td>" . $informacja['przyczyna'] . "</td>";
                     echo "<td>" . $informacja['opiniujacy'] . "</td>";
+                    echo "<td>" . $informacja['data'] . "</td>";
     
                     $id_upadku = $informacja['id'];
     

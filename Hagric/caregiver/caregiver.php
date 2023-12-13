@@ -24,7 +24,7 @@
             left: 50%;
             transform: translate(-50%, -50%);
             width: 450px;
-            height: 370px;
+            height: 390px;
             background: rgba(255, 255, 255, .5);
             padding: 4rem;
             border-radius: 10px;
@@ -61,6 +61,7 @@ session_start();
             </div>
             <div class='list-container'>
                 <a href='lista_rolnikow.php'>Lista rolników</a>
+                <a href='adduser.php'>Dodaj rolnika</a>
                 <a href='/Hagric/logout.php'>Wyloguj</a>
             </div>
         </div>

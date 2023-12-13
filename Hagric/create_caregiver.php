@@ -52,9 +52,6 @@
                 <label for="username">E-mail:</label>
                 <input type="text" name="username" required><br>
 
-                <label for="nip">NIP:</label>
-                <input type="number" name="nip" required><br>
-
                 <label for="password">Hasło:</label>
                 <input type="password" name="password" required><br>
 
@@ -67,8 +64,6 @@
                 <label for="nazwisko">Nazwisko:</label>
                 <input type="text" name="nazwisko" required><br>
 
-                <label for="adres">Adres:</label>
-                <input type="text" name="adres" required><br>
 
                 <label for="searchFarmers">Wyszukaj rolnika:</label><br>
 <div class="search-container">
@@ -111,12 +106,11 @@
 
             // Zbieranie danych z formularza
             $username = $_POST['username'];
-            $nip = $_POST['nip'];
             $password = $_POST['password'];
             $numer_telefonu = $_POST['numer_telefonu'];
             $imie = $_POST['imie'];
             $nazwisko = $_POST['nazwisko'];
-            $adres = $_POST['adres'];
+            
             // Pozostałe zmienne z formularza
 
             $selectedFarmers = $_POST['farmers'] ?? []; // Pobranie zaznaczonych rolników
@@ -124,15 +118,13 @@
             $pdo->beginTransaction();
 
             // Wstawienie danych opiekuna do bazy
-            $query_insert_caregiver = "INSERT INTO users (username, nip, password, numer_telefonu, imie, nazwisko, adres, administrator) VALUES (:username, :nip, :password, :numer_telefonu, :imie, :nazwisko, :adres, 'caregiver')";
+            $query_insert_caregiver = "INSERT INTO users (username, password, numer_telefonu, imie, nazwisko, administrator) VALUES (:username, :password, :numer_telefonu, :imie, :nazwisko, 'caregiver')";
             $stmt_insert_caregiver = $pdo->prepare($query_insert_caregiver);
             $stmt_insert_caregiver->bindParam(':username', $username);
-            $stmt_insert_caregiver->bindParam(':nip', $nip);
             $stmt_insert_caregiver->bindParam(':password', $password);
             $stmt_insert_caregiver->bindParam(':numer_telefonu', $numer_telefonu);
             $stmt_insert_caregiver->bindParam(':imie', $imie);
             $stmt_insert_caregiver->bindParam(':nazwisko', $nazwisko);
-            $stmt_insert_caregiver->bindParam(':adres', $adres);
             // Pozostałe bindParam dla zmiennych formularza
             $stmt_insert_caregiver->execute();
 
