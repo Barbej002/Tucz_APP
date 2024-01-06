@@ -191,6 +191,24 @@ tr.even {
                 margin-right: 10px; 
             }
         }
+        .add-delivery {
+        background-color: transparent;
+        padding: 1px;
+        cursor: pointer;
+        border-radius: 5px;
+        color: #ff9900;
+        margin-bottom: 10px;
+        border: none;
+        outline: none;
+        box-shadow: none;
+        text-decoration: none; /* Set text decoration to none by default */
+        transition: color 0.3s ease; /* Add a transition for smooth effect */
+    }
+
+    .add-delivery:hover {
+        background-color: transparent; /* Ensure background stays transparent on hover */
+        text-decoration: underline; /* Underline text on hover */
+    }
     </style>
 
 </head>
@@ -270,7 +288,7 @@ echo "
 <div class='table-responsive'>
     <table class='table table-bordered' id='dataTable' width='100%' cellspacing='0'>
         <thead>";
-        echo "<tr><th>Numer stada</th><th>Opis/komora</th><th>Ilość sztuk</th><th>Ilość padłych sztuk</th><th>Procent upadków</th><th>Stan na dzień: " . date('d-m-Y') . "</th><th>Dzień tuczu</th><th>Informacje o upadkach</th><th>Akcje</th></tr>";
+        echo "<tr><th>Numer stada</th><th>Opis/komora</th><th>Ilość sztuk</th><th>Ilość padłych sztuk</th><th>Procent upadków</th><th>Stan na dzień: " . date('d-m-Y') . "</th><th>Dzień tuczu</th><th>Informacje o upadkach</th><th>Dostawy</th><th>Akcje</th></tr>";
 echo "</thead>";
 echo "<tbody>";
 $counter = 0;
@@ -312,6 +330,7 @@ foreach ($stada as $stado) {
     }
 
     echo "<td>$numer_stada</td><td>$opis</td><td>$ilosc_sztuk</td><td>$ilosc_padlych</td><td>$procent_padlych%</td><td>" . ($ilosc_sztuk - $ilosc_padlych) . "</td><td>$dzien_tuczu</td><td><a href='informacje_padle.php?id=$id_stada&idf=$idf'>informacje o padłych</a></td>";
+    echo "<td><button onclick='confirmAddDelivery($id_stada, $idf)' class='button add-delivery'>Dodaj dostawę</button></td>";
     echo "<td><a href='zglos_upadek.php?id=$id_stada&idf=$idf'>Zgłoś upadek</a>&nbsp;&nbsp;<a href='sell.php?id=$id_stada&idf=$idf'>Sprzedaż</a></td>";
     
 
@@ -392,6 +411,7 @@ echo "</div>";
                 <div class="button-group">
         <a href="stworz_stado.php?id=<?php echo $idf; ?>" class="button">Dodaj stado</a>
         <a href="sell_history.php?id=<?php echo $idf; ?>" class="button">Historia sprzedaży</a>
+        <a href="deliveries_history.php?id=<?php echo $idf; ?>" class="button">Historia dostaw</a>
         <a href="zglos_leczenie.php?id=<?php echo $idf; ?>" class="button">Zgłoś leczenie</a>
 
     </div>
@@ -466,6 +486,20 @@ echo "</div>";
             }
         });
     }
+    
+    function confirmAddDelivery(id_stada, idf) {
+        // Wyświetlenie powiadomienia o dodaniu dostawy
+        var confirmation = confirm("Istniejące stado zostanie powiększone o zadeklarowane wartości.");
+
+        // Sprawdzenie czy użytkownik kliknął OK w powiadomieniu
+        if (confirmation) {
+            // Przeniesienie użytkownika do podstrony add_delivery.php z odpowiednimi parametrami id_stada i idf
+            window.location.href = "add_delivery.php?id=" + id_stada + "&idf=" + idf;
+        } else {
+            // Użytkownik kliknął Anuluj - nic się nie dzieje
+        }
+    }
+
 </script>
 </body>
 </html>

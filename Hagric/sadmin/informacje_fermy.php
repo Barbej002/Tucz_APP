@@ -303,6 +303,8 @@ echo "</div>";
 </div>
 <div class="content">
     <div class="info">
+    <a href="sell_history.php?id=<?php echo $idf; ?>" class="button">Historia sprzedaży</a>
+        <a href="deliveries_history.php?id=<?php echo $idf; ?>" class="button">Historia dostaw</a>
         <?php
             require_once('db_config.php');
 
@@ -314,6 +316,7 @@ echo "</div>";
             }
         $id = $_GET['id'];
         $idf = $_GET['id'];
+        
 
         
         $query = "SELECT * FROM lista_ferm WHERE id=$id";
