@@ -136,7 +136,7 @@ echo "<a href='logout.php' class='wyloguj'; style='color: black;'>Wyloguj</a>";
         box-sizing: border-box;
     }
     </style>
-        <script>
+    <script>
         // Funkcja wywoływana po zmianie wartości w polu przyczyny
         function toggleOtherReasonField() {
             // Pobranie wartości wybranej opcji
@@ -154,6 +154,21 @@ echo "<a href='logout.php' class='wyloguj'; style='color: black;'>Wyloguj</a>";
                 otherReasonField.removeAttribute("required"); // Usunięcie wymagalności pola
             }
         }
+
+        // Funkcja ustawiająca zakres wyboru daty
+        window.addEventListener('DOMContentLoaded', function () {
+            var dateField = document.getElementById('data');
+            var today = new Date();
+            var minDate = new Date(today);
+            minDate.setDate(minDate.getDate() - 2); // Data dwóch dni wstecz
+            var formattedMinDate = minDate.toISOString().split('T')[0]; // Formatowanie daty do postaci YYYY-MM-DD
+
+            var maxDate = new Date(today);
+            var formattedMaxDate = maxDate.toISOString().split('T')[0]; // Formatowanie daty bieżącej do postaci YYYY-MM-DD
+            
+            dateField.setAttribute('min', formattedMinDate); // Ustawienie minimalnej daty
+            dateField.setAttribute('max', formattedMaxDate); // Ustawienie maksymalnej daty
+        });
     </script>
 </head>
 
