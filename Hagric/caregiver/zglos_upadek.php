@@ -33,6 +33,11 @@ if (isset($_POST['submit'])) {
     $ilosc_padlych = $_POST['ilosc_padlych'];
     $data = $_POST['data'];
     $przyczyna = $_POST['przyczyna'];
+    if ($przyczyna === 'inne') {
+        // Jeśli przyczyna to "inne", pobierz wartość z pola "Inna przyczyna"
+        $inne_przyczyna = $_POST['inne'];
+        $przyczyna = $inne_przyczyna; // Zaktualizuj zmienną $przyczyna
+    }
     $opiniujacy = $_POST['opiniujacy'];
 
 
@@ -131,6 +136,25 @@ echo "<a href='logout.php' class='wyloguj'; style='color: black;'>Wyloguj</a>";
         box-sizing: border-box;
     }
     </style>
+        <script>
+        // Funkcja wywoływana po zmianie wartości w polu przyczyny
+        function toggleOtherReasonField() {
+            // Pobranie wartości wybranej opcji
+            var selectedReason = document.getElementById("przyczyna").value;
+            
+            // Pobranie pola "inne_przyczyna"
+            var otherReasonField = document.getElementById("inne");
+
+            // Jeśli wybrano opcję "INNE", pokaż pole "inne_przyczyna", w przeciwnym razie ukryj
+            if (selectedReason === "inne") {
+                otherReasonField.style.display = "block";
+                otherReasonField.setAttribute("required", "true"); // Ustawienie pola jako wymaganego
+            } else {
+                otherReasonField.style.display = "none";
+                otherReasonField.removeAttribute("required"); // Usunięcie wymagalności pola
+            }
+        }
+    </script>
 </head>
 
 <body>
@@ -155,7 +179,7 @@ echo "<a href='logout.php' class='wyloguj'; style='color: black;'>Wyloguj</a>";
 
                     <label for="przyczyna">Przyczyna:</label>
                     <div class="select-dropdown">
-                        <select name="przyczyna" id="przyczyna" required>
+                        <select name="przyczyna" id="przyczyna" onchange="toggleOtherReasonField()" required>
                             <option value="">Wybierz przyczynę</option>
                             <option value="Strepto">Strepto</option>
                             <option value="Glasser">Glasser</option>
@@ -167,9 +191,13 @@ echo "<a href='logout.php' class='wyloguj'; style='color: black;'>Wyloguj</a>";
                             <option value="Prrs">Prrs</option>
                             <option value="Charłaczy">Charłaczy</option>
                             <option value="PCV">PCV</option>
-                            <option value="INNE">INNE</option>
+                            <option value="inne">Inne</option>
                             
                         </select>
+                    </div>
+                    <div id="inne" style="display: none;">
+                        <label for="inne">Inna przyczyna:</label>
+                        <input type="text" name="inne" id="inne">
                     </div>
 
                     <label for="opiniujacy">Opiniujący:</label>
