@@ -137,6 +137,26 @@ tr.even {
                 margin-right: 10px; 
             }
         }
+
+        .button-group {
+    display: flex;
+    flex-direction: row; 
+    gap: 10px; 
+    justify-content: center; 
+}
+
+.button {
+    background-color: #ffffff;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    color: #ff9900;
+    margin-bottom: 10px;
+}
+
+.button:hover {
+    background-color: #ffffff80;
+}
     </style>
 
 </head>
@@ -303,8 +323,11 @@ echo "</div>";
 </div>
 <div class="content">
     <div class="info">
-    <a href="sell_history.php?id=<?php echo $idf; ?>" class="button">Historia sprzedaży</a>
-        <a href="deliveries_history.php?id=<?php echo $idf; ?>" class="button">Historia dostaw</a>
+    <div class="buttons-container">
+                <div class="button-group">
+                <a href="sell_history.php?id=<?php echo $idf; ?>" class="button">Historia sprzedaży</a>
+</div>
+</div>
         <?php
             require_once('db_config.php');
 

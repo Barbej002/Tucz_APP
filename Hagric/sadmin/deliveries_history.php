@@ -1,8 +1,6 @@
 <?php
-
 session_start();
 if (!isset($_SESSION['user_id'])) {
-    
     header("Location: login.html");
     exit();
 }
@@ -16,13 +14,26 @@ try {
     die("Nie można połączyć się z bazą danych: " . $e->getMessage());
 }
 
+// Pobieranie ID fermy z parametru URL
+$id_fermy = isset($_GET['id']) ? $_GET['id'] : null;
 
-$query = "SELECT * FROM informacje_upadki";
+if ($id_fermy === null) {
+    // Obsłuż sytuację, gdy brakuje parametru 'id' w URL lub jest niepoprawny
+    echo "Błąd: Brak lub nieprawidłowe ID fermy.";
+    exit();
+}
+
+// Pobieranie danych o dostawach danej fermy
+$query = "SELECT stada.numer_stada, deliveries.date, deliveries.herd_id, deliveries.quantity
+          FROM stada
+          INNER JOIN deliveries ON stada.id = deliveries.herd_id
+          WHERE stada.id_farmy = :id_fermy";
 $stmt = $pdo->prepare($query);
+$stmt->bindParam(':id_fermy', $id_fermy, PDO::PARAM_INT);
 $stmt->execute();
-$informacje_upadki = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
+$dostawy_dane = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
+
 <!DOCTYPE html>
 <html lang="pl">
 <head>
@@ -32,7 +43,7 @@ $informacje_upadki = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <meta name="description" content="">
 <meta name="author" content="">
 
-<title>Informacje o upadkach</title>
+<title>Historia dostaw</title>
 
 
 <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -50,6 +61,12 @@ $informacje_upadki = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <link href="css/navbar.css" rel="stylesheet">
 
 <style>
+    #content-wrapper {
+    margin-top: 20px; 
+    margin-bottom: 60px; 
+    padding: 20px; 
+}
+
         body {
             overflow-x: hidden;
             background-image: url(background.jpg);
@@ -90,10 +107,20 @@ tr.even {
         }
 
         .footer {
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            background-color: #222222;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background-color: #222222;
+    margin-top: 20px; 
+}
+                .footer-text {
+            color: #fff;
+        }
+
+        .footer-link {
+            color: #fff;
+            font-weight: bold;
+            text-decoration: none;
         }
 
         .kontener {
@@ -102,13 +129,13 @@ tr.even {
 
         .tytul {
             text-align: center;
-            margin-top: 20px;
+            margin-top: 0;
             margin-bottom: 20px;
             font-size: 25px;
         }
 
         .card {
-            margin-top: 20px;
+            margin-top: 0;
         }
 
         .card-header {
@@ -149,6 +176,7 @@ tr.even {
             border-radius: 5px;
             cursor: pointer;
             text-decoration: none;
+            margin-bottom: 10px; 
         }
 
         .footer-text {
@@ -174,126 +202,61 @@ tr.even {
 <body id="page-top">
 <nav class="navbar">
 <div class="navbar-buttons">
-<a href="panel_administratora2.php" class="navbar-button">Powrót</a>
+<a href="informacje_fermy.php?id=<?php echo $id_fermy; ?>" class="navbar-button">Powrót</a>
 </div>
-<a href="#" class="navbar-logo">Informacje o upadkach</a>
+<a href="#" class="navbar-logo">Historia dostaw</a>
 <div class="navbar-buttons">
-            <a href="/Hagric/logout.php" class="navbar-button">Wyloguj</a>
+            <a href="logout.php" class="navbar-button">Wyloguj</a>
         </div>
     </nav>
 
-    
-<div id="wrapper">
-<div id="content-wrapper" class="d-flex flex-column">
-    <div id="content">
-        <div class="container-fluid">
+
+    <div id="wrapper">
+    <div id="content-wrapper" class="d-flex flex-column">
+        <div id="content">
+            <div class="container-fluid">
                 <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">Lista upadków</h6>
+                    <h6 class="m-0 font-weight-bold text-primary">Historia dostaw</h6>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                        <thead>
-                                        <tr>
-                                            <th>Numer stada</th>
-                                            <th>Ilość padłych</th>
-                                            <th>Przyczyna</th>
-                                            <th>Opiniujący</th>
-                                            <th>Załączniki</th>
-                                            <th>Właściciel fermy</th>
-                                        </tr>
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>Numer stada</th>
+                                    <th>Ilość sztuk</th>
+                                    <th>Data</th>
+                                </tr>
                             </thead>
-                            <tfoot>
-                            <tr>
-                                            <th>Numer stada</th>
-                                            <th>Ilość padłych</th>
-                                            <th>Przyczyna</th>
-                                            <th>Opiniujący</th>
-                                            <th>Załączniki</th>
-                                            <th>Właściciel fermy</th>
-                                        </tr>
-                            </tfoot>
                             <tbody>
-<?php
-    if (count($informacje_upadki) > 0) {
-        
-        $counter = 0;
-        foreach ($informacje_upadki as $informacja) {
-                    
-        $row_class = ($counter % 2 === 0) ? 'even' : 'odd';
-        $counter++;
-            echo "<tr class='$row_class'>";
-            $ids = $informacja['id_stada'];
-            echo "<td>" . $stado['numer_stada'] . "</td>";
-            echo "<td>" . $informacja['ilosc_padlych'] . "</td>";
-            echo "<td>" . $informacja['przyczyna'] . "</td>";
-            echo "<td>" . $informacja['opiniujacy'] . "</td>";
-            $id_upadku = $informacja['id'];
-
-            
-            $query = "SELECT * FROM pliki_upadki WHERE id_upadku = :id_upadku";
-            $stmt = $pdo->prepare($query);
-            $stmt->bindParam(':id_upadku', $id_upadku);
-            $stmt->execute();
-            $pliki_upadki = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-            echo "<td>";
-            if (count($pliki_upadki) > 0) {
-                $sciezka_pliku = "upload/" . $pliki_upadki[0]['nazwa_pliku']; 
-                echo "<a href='zalaczniki_upadki2.php?id=" . $pliki_upadki[0]['id_upadku'] . "&ids=$ids' target='_blank'>Zobacz załączniki</a><br>";
-            }
-            echo "</td>";
-
-            
-            $query = "SELECT * FROM stada WHERE id = :id_stada";
-            $stmt = $pdo->prepare($query);
-            $stmt->bindParam(':id_stada', $informacja['id_stada']);
-            $stmt->execute();
-            $stado = $stmt->fetch(PDO::FETCH_ASSOC);
-
-            if ($stado) {
-                
-                $query = "SELECT * FROM lista_ferm WHERE id = :id_farmy";
-                $stmt = $pdo->prepare($query);
-                $stmt->bindParam(':id_farmy', $stado['id_farmy']);
-                $stmt->execute();
-                $lista_ferm = $stmt->fetch(PDO::FETCH_ASSOC);
-                $id_fermy = ['id_farmy'];
-
-                if ($lista_ferm) {
-                    echo "<td>" . $lista_ferm['wlasciciel'] . "</td>";
-                } else {
-                    echo "<td>-</td>";
-                }
-            } else {
-                echo "<td>-</td>";
-            }
-
-            echo "</tr>";
-        }
-        echo "</tbody>";
-        echo "</table>";
-    } else {
-        echo "Brak informacji o upadkach.";
-    }
-    echo "</div>";
-    echo "</div>";
-    echo "</div>";
-    echo "</div>";
-    echo "</div>";
-    echo "</div>";
-
-    ?>
-    
-<a class="scroll-to-top rounded" href="#page-top">
-<i class="fas fa-angle-up"></i>
-</a>
-
-<div class="kontener">
-            <div class="footer">
-                <p><span class="footer-text">&copy;</span> <span class="current-year">Year</span> <span class="footer-text">Hagric - Developed by <a href="https://www.ac-it.pl/" target="_blank" class="footer-link">AC IT Sp. z o.o.</a></span></p>
+                                <?php
+                                if (count($dostawy_dane) > 0) {
+                                    foreach ($dostawy_dane as $dane) {
+                                        echo "<tr>";
+                                        echo "<td>" . $dane['numer_stada'] . "</td>";
+                                        echo "<td>" . $dane['quantity'] . "</td>";
+                                        echo "<td>" . $dane['date'] . "</td>";
+                                        echo "</tr>";
+                                    }
+                                } else {
+                                    echo "<tr><td colspan='4'>Brak informacji o dostawach w tej fermie.</td></tr>";
+                                }
+                                ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
+    </div>
+</div>
+<div class="footer">
+    <p>
+        <span class="footer-text">&copy;</span>
+        <span class="current-year">Year</span>
+        <span class="footer-text">Hagric - Developed by <a href="https://www.ac-it.pl/" target="_blank" class="footer-link">AC IT Sp. z o.o.</a></span>
+    </p>
+</div>
 
         <script>
             const currentYear = new Date().getFullYear();

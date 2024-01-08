@@ -412,7 +412,6 @@ echo "</div>";
                 <div class="button-group">
         <a href="stworz_stado.php?id=<?php echo $idf; ?>" class="button">Dodaj stado</a>
         <a href="sell_history.php?id=<?php echo $idf; ?>" class="button">Historia sprzedaży</a>
-        <a href="deliveries_history.php?id=<?php echo $idf; ?>" class="button">Historia dostaw</a>
         <a href="zglos_leczenie.php?id=<?php echo $idf; ?>" class="button">Zgłoś leczenie</a>
 
     </div>

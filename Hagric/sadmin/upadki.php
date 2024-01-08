@@ -181,25 +181,10 @@ tr.even {
             <a href="/Hagric/logout.php" class="navbar-button">Wyloguj</a>
         </div>
     </nav>
-
-    
 <div id="wrapper">
-    
-
-
 <div id="content-wrapper" class="d-flex flex-column">
-
-    
     <div id="content">
-
-        
         <div class="container-fluid">
-            
-
-            
-
-            
-
                 <div class="card-header py-3">
                     <h6 class="m-0 font-weight-bold text-primary">Lista upadków</h6>
                 </div>
@@ -208,7 +193,7 @@ tr.even {
                         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                         <thead>
                                         <tr>
-                                            <th>ID stada</th>
+                                            <th>Numer stada</th>
                                             <th>Ilość padłych</th>
                                             <th>Przyczyna</th>
                                             <th>Opiniujący</th>
@@ -218,7 +203,7 @@ tr.even {
                             </thead>
                             <tfoot>
                             <tr>
-                                            <th>ID stada</th>
+                                            <th>Numer stada</th>
                                             <th>Ilość padłych</th>
                                             <th>Przyczyna</th>
                                             <th>Opiniujący</th>
@@ -236,8 +221,8 @@ tr.even {
         $row_class = ($counter % 2 === 0) ? 'even' : 'odd';
         $counter++;
             echo "<tr class='$row_class'>";
-            echo "<td>" . $informacja['id_stada'] . "</td>";
             $ids = $informacja['id_stada'];
+            echo "<td>" . $stado['numer_stada'] . "</td>";
             echo "<td>" . $informacja['ilosc_padlych'] . "</td>";
             echo "<td>" . $informacja['przyczyna'] . "</td>";
             echo "<td>" . $informacja['opiniujacy'] . "</td>";

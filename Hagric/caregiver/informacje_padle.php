@@ -175,6 +175,7 @@ tr.even {
             $stmt->bindParam(':id_stada', $id_stada);
             $stmt->execute();
             $informacje_upadki = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            
     
             if (count($informacje_upadki) > 0) {
                 
